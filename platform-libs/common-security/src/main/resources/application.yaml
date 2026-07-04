@@ -1,0 +1,3 @@
+jwt:
+  secret: "YourSuperLongAndSecureSecretKeyHereWhichIsMoreThan256BitsLong"
+  expiration: 3600000 # 1 hour in milliseconds

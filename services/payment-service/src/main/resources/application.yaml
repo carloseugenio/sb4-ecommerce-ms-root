@@ -1,0 +1,60 @@
+#Dev port
+server:
+  port: 8082
+
+# Logging configuration for this environment
+logging:
+  level:
+    root: INFO
+    org:
+      springframework: INFO
+
+spring:
+  application:
+    name: payment-service
+
+  config:
+    import: optional:file:.env[.properties]
+
+    datasource:
+      url: jdbc:h2:mem:db/payment-service-db;MODE=PostgreSQL;DB_CLOSE_DELAY=-1
+      username: sa
+      password:
+      driver-class-name: org.h2.Driver
+
+  liquibase:
+    # Enables or disables Liquibase migration on startup
+    enabled: true
+    # Path to your master changelog file
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+    # Optional: Prevents dropping the database before migration
+    drop-first: false
+    # Optional: Contexts to target specific datasets (e.g., dev, test, prod)
+    contexts: latest
+
+  jpa:
+    show-sql: true
+    generate-ddl: true
+    #    hibernate.ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        naming_strategy: org.hibernate.cfg.ImprovedNamingStrategy
+
+  # Allow reuse JPA module setup
+  main:
+    allow-bean-definition-overriding: true
+
+  devtools:
+    restart:
+      enabled: true
+
+  h2:
+    console:
+      enabled: true
+  management:
+    endpoints:
+      web:
+        exposure:
+          include: "*"
+

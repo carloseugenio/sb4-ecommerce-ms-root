@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GradleMigrationSettings" migrationVersion="1" />
+  <component name="GradleSettings">
+    <option name="linkedExternalProjectsSettings">
+      <GradleProjectSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/common-dto" />
+            <option value="$PROJECT_DIR$/order-service" />
+            <option value="$PROJECT_DIR$/payment-service" />
+            <option value="$PROJECT_DIR$/platform-libs" />
+            <option value="$PROJECT_DIR$/platform-libs/common-domain" />
+            <option value="$PROJECT_DIR$/platform-libs/common-messaging" />
+            <option value="$PROJECT_DIR$/platform-libs/common-persistence" />
+            <option value="$PROJECT_DIR$/platform-libs/common-security" />
+            <option value="$PROJECT_DIR$/services" />
+            <option value="$PROJECT_DIR$/shared-common" />
+            <option value="$PROJECT_DIR$/shared-spring" />
+          </set>
+        </option>
+        <option name="myGradleHome" value="" />
+      </GradleProjectSettings>
+    </option>
+  </component>
+</project>

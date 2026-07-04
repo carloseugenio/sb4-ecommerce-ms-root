@@ -1,0 +1,55 @@
+[versions]
+aws-sdk = "2.25.0"
+lombok = "1.18.30"
+java = "21"
+jjwt = "0.12.6"
+spring-boot = "4.1.0"
+spring-cloud = "2026.0.0"
+testcontainers = "1.19.0"
+
+[libraries]
+# Define the central dictionary (BOM)
+spring-boot-bom = { group = "org.springframework.boot", name = "spring-boot-dependencies", version.ref = "spring-boot" }
+
+# Spring Boot
+spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web" }
+spring-boot-starter-data-jpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa" }
+spring-boot-starter-security = { module = "org.springframework.boot:spring-boot-starter-security" }
+spring-boot-starter-actuator = { module = "org.springframework.boot:spring-boot-starter-actuator" }
+spring-boot-starter-validation = { module = "org.springframework.boot:spring-boot-starter-validation" }
+spring-boot-starter-json = { group = "org.springframework.boot", name = "spring-boot-starter-json" }
+
+# Spring Cloud
+spring-cloud-starter-aws = { module = "io.awspring.cloud:spring-cloud-aws-starter", version = "3.1.0" }
+spring-cloud-starter-aws-messaging = { module = "io.awspring.cloud:spring-cloud-aws-starter-sqs", version = "3.1.0" }
+
+# Security - JWT
+jjwt-api = { group = "io.jsonwebtoken", name = "jjwt-api", version.ref = "jjwt" }
+jjwt-impl = { group = "io.jsonwebtoken", name = "jjwt-impl", version.ref = "jjwt" }
+jjwt-jackson = { group = "io.jsonwebtoken", name = "jjwt-jackson", version.ref = "jjwt" }
+
+# Lombok
+# Version is omitted because Spring Boot's dependency management handles it
+lombok = { group = "org.projectlombok", name = "lombok", version.ref = "lombok" }
+
+# AWS SDK
+aws-sdk-s3 = { module = "software.amazon.awssdk:s3", version.ref = "aws-sdk" }
+aws-sdk-dynamodb = { module = "software.amazon.awssdk:dynamodb", version.ref = "aws-sdk" }
+aws-sdk-sqs = { module = "software.amazon.awssdk:sqs", version.ref = "aws-sdk" }
+
+# Database
+postgresql = { module = "org.postgresql:postgresql", version = "42.7.0" }
+flyway-core = { module = "org.flywaydb:flyway-core", version = "10.0.0" }
+
+# Testing
+spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test" }
+testcontainers-postgresql = { module = "org.testcontainers:postgresql", version.ref = "testcontainers" }
+testcontainers-localstack = { module = "org.testcontainers:localstack", version.ref = "testcontainers" }
+
+# Observability
+micrometer-registry-cloudwatch = { module = "io.micrometer:micrometer-registry-cloudwatch", version = "1.12.0" }
+opentelemetry-exporter-otlp = { module = "io.opentelemetry:opentelemetry-exporter-otlp", version = "1.35.0" }
+
+[plugins]
+spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
+spring-dependency-management = { id = "io.spring.dependency-management", version = "1.1.7" }

@@ -1,0 +1,55 @@
+#Dev port
+server:
+  port: 8082
+
+# Logging configuration for this environment
+logging:
+  level:
+    root: DEBUG
+    org:
+      springframework: DEBUG
+  pattern:
+    console: "%d{HH:mm:ss.SSS} --- [payment-service]-[%17.15t] [%level] [%-30.30class{30}] : [%.-160m]%n"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+spring:
+  config:
+    import: optional:file:.env[.properties]
+
+  datasource:
+    url: jdbc:h2:mem:db/microservices-db;MODE=PostgreSQL;DB_CLOSE_DELAY=-1
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+  jpa:
+    show-sql: true
+    generate-ddl: true
+    #    hibernate.ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        naming_strategy: org.hibernate.cfg.ImprovedNamingStrategy
+
+  # Allow reuse JPA module setup
+  main:
+    allow-bean-definition-overriding: true
+
+  devtools:
+    restart:
+      enabled: true
+
+  h2:
+    console:
+      enabled: true
+  management:
+    endpoints:
+      web:
+        exposure:
+          include: "*"
+

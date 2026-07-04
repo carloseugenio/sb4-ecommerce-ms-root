@@ -1,0 +1,68 @@
+spring:
+  application:
+    name: order-service
+
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:orders}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:postgres}
+    hikari:
+      maximum-pool-size: 20
+      minimum-idle: 5
+      connection-timeout: 30000
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: false
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+
+# AWS Configuration
+aws:
+  region: ${AWS_REGION:us-east-1}
+  sqs:
+    order-events-queue: ${ORDER_EVENTS_QUEUE_URL}
+  s3:
+    invoice-bucket: ${INVOICE_BUCKET_NAME}
+
+# Security
+jwt:
+  secret: ${JWT_SECRET}
+  expiration-minutes: 60
+
+# Actuator endpoints
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: always
+  metrics:
+    export:
+      cloudwatch:
+        namespace: MyPlatform/OrderService
+        enabled: true
+        step: 1m
+
+server:
+  port: ${PORT:8080}
+  shutdown: graceful
+
+# Logging
+logging:
+  level:
+    com.mycompany.platform: ${LOG_LEVEL:INFO}
+    org.springframework.web: INFO
+    org.hibernate.SQL: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"

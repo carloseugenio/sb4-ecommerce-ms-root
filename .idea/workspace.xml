@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="a4cea295-be19-4807-b5d8-6d3b413d5e41" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gradlew.bat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/settings.gradle.kts" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="sb4-ecommerce-ms-root" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="sb4-ecommerce-ms-root" type="f1a62948:ProjectNode" />
+                <item name="platform-libs" type="2d1252cf:ModuleNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="sb4-ecommerce-ms-root" type="f1a62948:ProjectNode" />
+                <item name="platform-libs" type="2d1252cf:ModuleNode" />
+                <item name="common-domain" type="2d1252cf:ModuleNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+        <option value="JUnit5 Test Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="NextEditCompletionFeaturesState">
+    <decayedCancelled>
+      <entry key="MS100" value="1.0" />
+      <entry key="MS500" value="1.0" />
+      <entry key="S2" value="1.0000201969924265" />
+      <entry key="S5" value="1.01324691290803" />
+      <entry key="S10" value="1.1150952340813793" />
+      <entry key="S30" value="1.486526739518271" />
+      <entry key="S60" value="1.7073502182436544" />
+      <entry key="M2" value="1.9346617509257031" />
+      <entry key="M5" value="2.339022842919605" />
+      <entry key="M10" value="2.846233795940903" />
+      <entry key="M15" value="3.547507099679332" />
+      <entry key="M30" value="7.3845007396539595" />
+      <entry key="H1" value="18.432367728559246" />
+      <entry key="H2" value="36.799749738232556" />
+      <entry key="H4" value="61.67738661233967" />
+      <entry key="D1" value="140.99658532095876" />
+      <entry key="W1" value="178.95941779024247" />
+    </decayedCancelled>
+    <decayedSelected>
+      <entry key="MS100" value="2.162077275050357E-22" />
+      <entry key="MS500" value="4.644877260862299E-5" />
+      <entry key="S2" value="0.08255745075111151" />
+      <entry key="S5" value="0.37438682987098415" />
+      <entry key="S10" value="0.682497935225503" />
+      <entry key="S30" value="1.2690337157401432" />
+      <entry key="S60" value="1.5700115933987626" />
+      <entry key="M2" value="1.7653883604297518" />
+      <entry key="M5" value="1.926348623886899" />
+      <entry key="M10" value="2.3300316795391742" />
+      <entry key="M15" value="2.9832156701607717" />
+      <entry key="M30" value="5.458633238191713" />
+      <entry key="H1" value="10.485393464815637" />
+      <entry key="H2" value="17.75518171300231" />
+      <entry key="H4" value="27.22820890023562" />
+      <entry key="D1" value="50.77887469464591" />
+      <entry key="W1" value="59.31924964917301" />
+    </decayedSelected>
+    <decayedShown>
+      <entry key="MS100" value="8.298080272481853E-17" />
+      <entry key="MS500" value="6.147725694257818E-4" />
+      <entry key="S2" value="0.20832474643016716" />
+      <entry key="S5" value="0.7951817541333533" />
+      <entry key="S10" value="1.4022107423217745" />
+      <entry key="S30" value="2.5592727253455867" />
+      <entry key="S60" value="3.1620287305922488" />
+      <entry key="M2" value="3.635865697725798" />
+      <entry key="M5" value="4.236548334988233" />
+      <entry key="M10" value="5.158768742930313" />
+      <entry key="M15" value="6.516006143466723" />
+      <entry key="M30" value="12.82996180654378" />
+      <entry key="H1" value="28.904932645864694" />
+      <entry key="H2" value="54.543677597322834" />
+      <entry key="H4" value="88.89665403756074" />
+      <entry key="D1" value="191.7723812559515" />
+      <entry key="W1" value="238.27813040490716" />
+    </decayedShown>
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 1,
+  "fromUser": false
+}]]></component>
+  <component name="ProjectId" id="3FyJepCCa8rySTueR0QJoIZwpMH" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Gradle.Build sb4-ecommerce-ms-root.executor": "Run",
+    "Gradle.JwtTokenProviderTest.GivenJWTShouldReturnUserName.executor": "Run",
+    "Gradle.OrderTest.GivenOrder_WhenCreateOrder_ThenOrderCreated.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/dapcar01/gitrep/sb4-ecommerce-ms-root",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "reference.projectsettings.compiler.annotationProcessors"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="br.com.cepp.ecommerce.platform.security" />
+      <recent name="br.com.cepp.ecommerce.platform.domain" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Gradle.JwtTokenProviderTest.GivenJWTShouldReturnUserName">
+    <configuration name="JwtTokenProviderTest.GivenJWTShouldReturnUserName" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":platform-libs:common-security:test" />
+            <option value="--tests" />
+            <option value="&quot;br.com.cepp.ecommerce.platform.security.JwtTokenProviderTest.GivenJWTShouldReturnUserName&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <ExternalSystemDebugDisabled>false</ExternalSystemDebugDisabled>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <GradleProfilingDisabled>false</GradleProfilingDisabled>
+      <GradleCoverageDisabled>false</GradleCoverageDisabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="OrderTest.GivenOrder_WhenCreateOrder_ThenOrderCreated" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":platform-libs:common-domain:test" />
+            <option value="--tests" />
+            <option value="&quot;br.com.cepp.ecommerce.platform.domain.OrderTest.GivenOrder_WhenCreateOrder_ThenOrderCreated&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <ExternalSystemDebugDisabled>false</ExternalSystemDebugDisabled>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <GradleProfilingDisabled>false</GradleProfilingDisabled>
+      <GradleCoverageDisabled>false</GradleCoverageDisabled>
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="sb4-ecommerce-ms-root" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="sb4-ecommerce-ms-root" />
+      <option name="filePath" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Gradle.JwtTokenProviderTest.GivenJWTShouldReturnUserName" />
+        <item itemvalue="Gradle.OrderTest.GivenOrder_WhenCreateOrder_ThenOrderCreated" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-30f59d01ecdd-37e91769500f-intellij.indexing.shared.core-IU-261.25134.95" />
+        <option value="bundled-js-predefined-d6986cc7102b-31caf2ab9e3c-JavaScript-IU-261.25134.95" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="a4cea295-be19-4807-b5d8-6d3b413d5e41" name="Changes" comment="" />
+      <created>1783041474785</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1783041474785</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

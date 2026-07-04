@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GradleSettings">
+    <option name="linkedExternalProjectsSettings">
+      <GradleProjectSettings>
+        <compositeConfiguration>
+          <compositeBuild compositeDefinitionSource="SCRIPT">
+            <builds>
+              <build path="$PROJECT_DIR$/buildSrc" name="buildSrc">
+                <projects>
+                  <project path="$PROJECT_DIR$/buildSrc" />
+                </projects>
+              </build>
+            </builds>
+          </compositeBuild>
+        </compositeConfiguration>
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="gradleJvm" value="#JAVA_HOME" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/buildSrc" />
+            <option value="$PROJECT_DIR$/platform-libs" />
+            <option value="$PROJECT_DIR$/platform-libs/common-domain" />
+            <option value="$PROJECT_DIR$/platform-libs/common-messaging" />
+            <option value="$PROJECT_DIR$/platform-libs/common-persistence" />
+            <option value="$PROJECT_DIR$/platform-libs/common-security" />
+            <option value="$PROJECT_DIR$/platform-libs/common-spring" />
+            <option value="$PROJECT_DIR$/services" />
+            <option value="$PROJECT_DIR$/services/inventory-service" />
+            <option value="$PROJECT_DIR$/services/order-service" />
+            <option value="$PROJECT_DIR$/services/payment-service" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+    </option>
+  </component>
+</project>
