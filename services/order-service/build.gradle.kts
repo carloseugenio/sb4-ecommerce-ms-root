@@ -35,7 +35,7 @@ dependencies {
     implementation(libs.flyway.core)
     
     // Observability
-    implementation(libs.micrometer.registry.cloudwatch)
+//    implementation(libs.micrometer.registry.cloudwatch)
     
     // Testing
     testImplementation(libs.spring.boot.starter.test)

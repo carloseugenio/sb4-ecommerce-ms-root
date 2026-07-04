@@ -8,4 +8,6 @@ group = "br.com.cepp.ecommerce.platform.persistence"
 version = "1.0-SNAPSHOT"
 
 dependencies {
+
+
 }

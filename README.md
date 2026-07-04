@@ -18,6 +18,7 @@ Some project layout and build decisions were inspired on this article:
 
 ## Directory Structure
 
+````text
 sb4-ecommerce-ms-root/
 ├── platform-libs/          ## Shared libraries
 │ ├── common-domain/        ## Domain models, DTOs
@@ -26,6 +27,7 @@ sb4-ecommerce-ms-root/
 │ └── common-persistence/   ## JPA entities, base repositories
 │ └── common-spring/        ## Other Spring Dependencies
 ├── services/               ## Deployable microservices
+│ ├── customer-service/
 │ ├── order-service/
 │ │ ├── src/
 │ │ ├── Dockerfile
@@ -46,3 +48,5 @@ sb4-ecommerce-ms-root/
 ├── settings.gradle
 ├── build.gradle            ## Root build configuration
 └── README.md
+````
+

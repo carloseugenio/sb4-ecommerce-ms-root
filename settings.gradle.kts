@@ -27,6 +27,7 @@ include("platform-libs:common-persistence")
 include("platform-libs:common-spring")
 
 // Include all service modules
+include("services:customer-service")
 include("services:inventory-service")
 include("services:order-service")
 include("services:payment-service")
@@ -37,6 +38,7 @@ project(":platform-libs:common-security").projectDir = file("platform-libs/commo
 project(":platform-libs:common-messaging").projectDir = file("platform-libs/common-messaging")
 project(":platform-libs:common-persistence").projectDir = file("platform-libs/common-persistence")
 
+project(":services:customer-service").projectDir = file("services/customer-service")
 project(":services:order-service").projectDir = file("services/order-service")
 project(":services:inventory-service").projectDir = file("services/inventory-service")
 project(":services:payment-service").projectDir = file("services/payment-service")

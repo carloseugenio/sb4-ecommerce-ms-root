@@ -5,16 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a4cea295-be19-4807-b5d8-6d3b413d5e41" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/settings.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/libs.versions.toml" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/libs.versions.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platform-libs/common-domain/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/platform-libs/common-domain/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platform-libs/common-persistence/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/platform-libs/common-persistence/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/order-service/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/services/order-service/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle.kts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,60 +69,60 @@
   <component name="NextEditCompletionFeaturesState">
     <decayedCancelled>
       <entry key="MS100" value="1.0" />
-      <entry key="MS500" value="1.0" />
-      <entry key="S2" value="1.0000201969924265" />
-      <entry key="S5" value="1.01324691290803" />
-      <entry key="S10" value="1.1150952340813793" />
-      <entry key="S30" value="1.486526739518271" />
-      <entry key="S60" value="1.7073502182436544" />
-      <entry key="M2" value="1.9346617509257031" />
-      <entry key="M5" value="2.339022842919605" />
-      <entry key="M10" value="2.846233795940903" />
-      <entry key="M15" value="3.547507099679332" />
-      <entry key="M30" value="7.3845007396539595" />
-      <entry key="H1" value="18.432367728559246" />
-      <entry key="H2" value="36.799749738232556" />
-      <entry key="H4" value="61.67738661233967" />
-      <entry key="D1" value="140.99658532095876" />
-      <entry key="W1" value="178.95941779024247" />
+      <entry key="MS500" value="1.0000000159047013" />
+      <entry key="S2" value="1.012156544822996" />
+      <entry key="S5" value="1.2742853503597338" />
+      <entry key="S10" value="2.0465156614093427" />
+      <entry key="S30" value="4.139641272028996" />
+      <entry key="S60" value="5.2975905766747315" />
+      <entry key="M2" value="6.064751830359098" />
+      <entry key="M5" value="6.639715249044101" />
+      <entry key="M10" value="7.58434223239654" />
+      <entry key="M15" value="9.054696397568685" />
+      <entry key="M30" value="13.032974126163163" />
+      <entry key="H1" value="17.22359063034713" />
+      <entry key="H2" value="22.48049794880452" />
+      <entry key="H4" value="38.52831292016379" />
+      <entry key="D1" value="159.13259251116662" />
+      <entry key="W1" value="241.01920495726037" />
     </decayedCancelled>
     <decayedSelected>
-      <entry key="MS100" value="2.162077275050357E-22" />
-      <entry key="MS500" value="4.644877260862299E-5" />
-      <entry key="S2" value="0.08255745075111151" />
-      <entry key="S5" value="0.37438682987098415" />
-      <entry key="S10" value="0.682497935225503" />
-      <entry key="S30" value="1.2690337157401432" />
-      <entry key="S60" value="1.5700115933987626" />
-      <entry key="M2" value="1.7653883604297518" />
-      <entry key="M5" value="1.926348623886899" />
-      <entry key="M10" value="2.3300316795391742" />
-      <entry key="M15" value="2.9832156701607717" />
-      <entry key="M30" value="5.458633238191713" />
-      <entry key="H1" value="10.485393464815637" />
-      <entry key="H2" value="17.75518171300231" />
-      <entry key="H4" value="27.22820890023562" />
-      <entry key="D1" value="50.77887469464591" />
-      <entry key="W1" value="59.31924964917301" />
+      <entry key="MS100" value="0.0" />
+      <entry key="MS500" value="0.0" />
+      <entry key="S2" value="0.0" />
+      <entry key="S5" value="0.0" />
+      <entry key="S10" value="0.0" />
+      <entry key="S30" value="0.0" />
+      <entry key="S60" value="2.0793477572644077E-174" />
+      <entry key="M2" value="3.0866121688399255E-87" />
+      <entry key="M5" value="6.459640111582113E-35" />
+      <entry key="M10" value="1.7936611341680485E-17" />
+      <entry key="M15" value="1.1714304805098771E-11" />
+      <entry key="M30" value="7.806847569903628E-6" />
+      <entry key="H1" value="0.00795786575254474" />
+      <entry key="H2" value="0.40674400091524743" />
+      <entry key="H4" value="4.042700503631419" />
+      <entry key="D1" value="39.14379672065963" />
+      <entry key="W1" value="61.1352564572635" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="8.298080272481853E-17" />
-      <entry key="MS500" value="6.147725694257818E-4" />
-      <entry key="S2" value="0.20832474643016716" />
-      <entry key="S5" value="0.7951817541333533" />
-      <entry key="S10" value="1.4022107423217745" />
-      <entry key="S30" value="2.5592727253455867" />
-      <entry key="S60" value="3.1620287305922488" />
-      <entry key="M2" value="3.635865697725798" />
-      <entry key="M5" value="4.236548334988233" />
-      <entry key="M10" value="5.158768742930313" />
-      <entry key="M15" value="6.516006143466723" />
-      <entry key="M30" value="12.82996180654378" />
-      <entry key="H1" value="28.904932645864694" />
-      <entry key="H2" value="54.543677597322834" />
-      <entry key="H4" value="88.89665403756074" />
-      <entry key="D1" value="191.7723812559515" />
-      <entry key="W1" value="238.27813040490716" />
+      <entry key="MS100" value="0.40895102927889054" />
+      <entry key="MS500" value="0.836246415534701" />
+      <entry key="S2" value="0.9683796256404501" />
+      <entry key="S5" value="1.2561193064872733" />
+      <entry key="S10" value="2.0368213959903345" />
+      <entry key="S30" value="4.135888721351838" />
+      <entry key="S60" value="5.29556813346025" />
+      <entry key="M2" value="6.063691597125366" />
+      <entry key="M5" value="6.639265036319342" />
+      <entry key="M10" value="7.583958830100901" />
+      <entry key="M15" value="9.054226441818827" />
+      <entry key="M30" value="13.03242791744806" />
+      <entry key="H1" value="17.23108660713367" />
+      <entry key="H2" value="22.886687989061173" />
+      <entry key="H4" value="42.569519350367564" />
+      <entry key="D1" value="198.27400808119265" />
+      <entry key="W1" value="302.1539095430518" />
     </decayedShown>
   </component>
   <component name="ProblemsViewState">
@@ -173,6 +171,9 @@
   <component name="RecentsManager">
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\dapcar01\gitrep\sb4-ecommerce-ms-root" />
     </key>
     <key name="CreateTestDialog.RecentsKey">
       <recent name="br.com.cepp.ecommerce.platform.security" />

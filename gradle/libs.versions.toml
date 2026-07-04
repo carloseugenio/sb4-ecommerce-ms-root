@@ -14,6 +14,7 @@ spring-boot-bom = { group = "org.springframework.boot", name = "spring-boot-depe
 # Spring Boot
 spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web" }
 spring-boot-starter-data-jpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa" }
+spring-boot-starter-data-jdbc = { module = "org.springframework.boot:spring-boot-starter-jdbc" }
 spring-boot-starter-security = { module = "org.springframework.boot:spring-boot-starter-security" }
 spring-boot-starter-actuator = { module = "org.springframework.boot:spring-boot-starter-actuator" }
 spring-boot-starter-validation = { module = "org.springframework.boot:spring-boot-starter-validation" }
@@ -38,8 +39,9 @@ aws-sdk-dynamodb = { module = "software.amazon.awssdk:dynamodb", version.ref = "
 aws-sdk-sqs = { module = "software.amazon.awssdk:sqs", version.ref = "aws-sdk" }
 
 # Database
-postgresql = { module = "org.postgresql:postgresql", version = "42.7.0" }
+postgresql = { module = "org.postgresql:postgresql", version = "42.7.7" }
 flyway-core = { module = "org.flywaydb:flyway-core", version = "10.0.0" }
+liquibase-core = { module = "org.liquibase:liquibase-core" }
 
 # Testing
 spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test" }
@@ -53,3 +55,4 @@ opentelemetry-exporter-otlp = { module = "io.opentelemetry:opentelemetry-exporte
 [plugins]
 spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
 spring-dependency-management = { id = "io.spring.dependency-management", version = "1.1.7" }
+liquibase-gradle = { id = "org.liquibase.gradle", version = "2.2.0" }
