@@ -11,6 +11,8 @@ dependencies {
     // 1. Tell this module where to look up Spring versions
     implementation(platform(libs.spring.boot.bom))
 
+    implementation("org.springframework.boot:spring-boot-starter-web")
+
     // Import your internal shared module
     implementation(project(":platform-libs:common-domain"))
     implementation(project(":platform-libs:common-messaging"))

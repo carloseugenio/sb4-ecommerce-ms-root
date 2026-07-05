@@ -1,0 +1,4 @@
+databaseChangeLog:
+  - includeAll:
+      path: db/changelog/datasets/
+      filter: ".*\\.yaml"  # Optional: ensures only YAML files are read

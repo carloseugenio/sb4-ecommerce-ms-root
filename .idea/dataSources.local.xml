@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal" created-in="IU-261.25134.95">
+    <data-source name="order-db@localhost" uuid="f7f4f50b-6916-4d40-ae37-c0db1de26a2c">
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="POSTGRES" />
+      <secret-storage>session</secret-storage>
+      <user-name>oder-db</user-name>
+      <schema-mapping />
+    </data-source>
+  </component>
+</project>

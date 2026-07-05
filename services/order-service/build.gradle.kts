@@ -2,6 +2,7 @@ plugins {
     id("java")
     alias(libs.plugins.spring.boot)
     alias(libs.plugins.spring.dependency.management)
+    alias(libs.plugins.liquibase.gradle)
 }
 
 group = "br.com.cepp.ecommerce"
@@ -16,55 +17,64 @@ dependencies {
     implementation(project(":platform-libs:common-security"))
     implementation(project(":platform-libs:common-messaging"))
     implementation(project(":platform-libs:common-persistence"))
-    
+
     // Spring Boot starters
     implementation(libs.spring.boot.starter.web)
     implementation(libs.spring.boot.starter.data.jpa)
+    implementation(libs.spring.boot.starter.liquibase)
     implementation(libs.spring.boot.starter.security)
     implementation(libs.spring.boot.starter.actuator)
     implementation(libs.spring.boot.starter.validation)
-    
-    // AWS integration
-    implementation(libs.spring.cloud.starter.aws)
-    implementation(libs.spring.cloud.starter.aws.messaging)
-    implementation(libs.aws.sdk.s3)
-    implementation(libs.aws.sdk.dynamodb)
-    
-    // Database
-    implementation(libs.postgresql)
-    implementation(libs.flyway.core)
-    
-    // Observability
-//    implementation(libs.micrometer.registry.cloudwatch)
-    
-    // Testing
-    testImplementation(libs.spring.boot.starter.test)
-    testImplementation(libs.testcontainers.postgresql)
-    testImplementation(libs.testcontainers.localstack)
+    implementation(libs.spring.boot.starter.hateoas)
+    implementation(libs.spring.boot.starter.restclient)
 
-    implementation("org.springframework.boot:spring-boot-h2console")
-    implementation("org.springframework.boot:spring-boot-starter-hateoas")
-    implementation("org.springframework.boot:spring-boot-starter-liquibase")
-    implementation("org.springframework.boot:spring-boot-starter-restclient")
-    developmentOnly("org.springframework.boot:spring-boot-devtools")
-    runtimeOnly("com.h2database:h2")
-    runtimeOnly("org.postgresql:postgresql")
-    testImplementation("org.springframework.boot:spring-boot-starter-actuator-test")
-    testImplementation("org.springframework.boot:spring-boot-starter-data-jpa-test")
-    testImplementation("org.springframework.boot:spring-boot-starter-hateoas-test")
-    testImplementation("org.springframework.boot:spring-boot-starter-liquibase-test")
-    testImplementation("org.springframework.boot:spring-boot-starter-restclient-test")
-    testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
-    testImplementation("org.springframework.boot:spring-boot-testcontainers")
-    testImplementation("org.testcontainers:testcontainers-junit-jupiter")
-    testImplementation("org.testcontainers:testcontainers-postgresql")
-
-    // Lombok
-    implementation(libs.lombok)
+    // --- Lombok & MapStruct Pipeline ---
+    // 1. Lombok
+    compileOnly(libs.lombok)
     annotationProcessor(libs.lombok)
 
-    // # MapStruct
-    implementation("org.mapstruct:mapstruct:1.5.5.Final")
-    annotationProcessor("org.mapstruct:mapstruct-processor:1.5.5.Final")
+    // 2. MapStruct
+    implementation(libs.mapstruct.core)
+    annotationProcessor(libs.mapstruct.processor)
 
+    // 3. Binding tool (Allows MapStruct to read Lombok getters/setters)
+    annotationProcessor(libs.lombok.mapstruct.binding)
+
+    // AWS integration
+//    implementation(libs.spring.cloud.starter.aws)
+//    implementation(libs.spring.cloud.starter.aws.messaging)
+//    implementation(libs.aws.sdk.s3)
+//    implementation(libs.aws.sdk.dynamodb)
+
+    // Observability
+//    implementation(libs.micrometer.registry.cloudwatch)
+
+    // Testing
+    testImplementation(libs.spring.boot.starter.test)
+    testImplementation(libs.spring.boot.starter.liquibase.test)
+
+    developmentOnly(libs.spring.boot.devtools)
+    runtimeOnly(libs.h2.database)
+    runtimeOnly(libs.postgresql)
+    testImplementation(libs.spring.boot.starter.data.jpa.test)
+    testImplementation(libs.spring.boot.starter.hateoas.test)
+    testImplementation(libs.spring.boot.starter.restclient.test)
+
+    // Test containers
+    testImplementation(libs.spring.boot.testcontainers)
+    testImplementation(libs.testcontainers.postgresql)
+    testImplementation(libs.testcontainers.junit.jupter)
+    testImplementation(libs.testcontainers.localstack)
+
+}
+
+// Global configuration for Docker Container Generation
+tasks.bootBuildImage {
+    // Generates an optimized, secure, distroless-like production image
+    imageName.set("carloseugenio/${project.name}:${project.version}")
+
+    // Configures the JVM memory and runtime options inside the container
+    environment.set(mapOf(
+        "BP_JVM_VERSION" to "21"
+    ))
 }

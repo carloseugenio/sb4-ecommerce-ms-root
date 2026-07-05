@@ -5,14 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a4cea295-be19-4807-b5d8-6d3b413d5e41" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/buildSrc/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/buildSrc/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/buildSrc/src/main/kotlin/sb4-ecommerce-ms-root.spring-commons.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/buildSrc/src/main/kotlin/sb4-ecommerce-ms-root.spring-commons.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gradle/libs.versions.toml" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/libs.versions.toml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/platform-libs/common-domain/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/platform-libs/common-domain/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/platform-libs/common-persistence/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/platform-libs/common-persistence/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/propmpt.md" beforeDir="false" afterPath="$PROJECT_DIR$/propmpt.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/customer-service/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/services/customer-service/build.gradle.kts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/services/order-service/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/services/order-service/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/order-service/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/services/order-service/src/main/resources/application.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,17 +42,6 @@
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="sb4-ecommerce-ms-root" type="f1a62948:ProjectNode" />
               </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="sb4-ecommerce-ms-root" type="f1a62948:ProjectNode" />
-                <item name="platform-libs" type="2d1252cf:ModuleNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="sb4-ecommerce-ms-root" type="f1a62948:ProjectNode" />
-                <item name="platform-libs" type="2d1252cf:ModuleNode" />
-                <item name="common-domain" type="2d1252cf:ModuleNode" />
-              </path>
             </expand>
             <select />
           </tree_state>
@@ -58,8 +52,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="JUnit5 Test Class" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -69,69 +63,69 @@
   <component name="NextEditCompletionFeaturesState">
     <decayedCancelled>
       <entry key="MS100" value="1.0" />
-      <entry key="MS500" value="1.0000000159047013" />
-      <entry key="S2" value="1.012156544822996" />
-      <entry key="S5" value="1.2742853503597338" />
-      <entry key="S10" value="2.0465156614093427" />
-      <entry key="S30" value="4.139641272028996" />
-      <entry key="S60" value="5.2975905766747315" />
-      <entry key="M2" value="6.064751830359098" />
-      <entry key="M5" value="6.639715249044101" />
-      <entry key="M10" value="7.58434223239654" />
-      <entry key="M15" value="9.054696397568685" />
-      <entry key="M30" value="13.032974126163163" />
-      <entry key="H1" value="17.22359063034713" />
-      <entry key="H2" value="22.48049794880452" />
-      <entry key="H4" value="38.52831292016379" />
-      <entry key="D1" value="159.13259251116662" />
-      <entry key="W1" value="241.01920495726037" />
+      <entry key="MS500" value="1.0" />
+      <entry key="S2" value="1.0" />
+      <entry key="S5" value="1.0000000000215252" />
+      <entry key="S10" value="1.0000089883425982" />
+      <entry key="S30" value="1.0520398235702364" />
+      <entry key="S60" value="1.4587364964342924" />
+      <entry key="M2" value="2.4205520073251945" />
+      <entry key="M5" value="4.107758107929775" />
+      <entry key="M10" value="5.504769286873318" />
+      <entry key="M15" value="7.38113936272708" />
+      <entry key="M30" value="21.16860524110557" />
+      <entry key="H1" value="61.35678894275818" />
+      <entry key="H2" value="124.99794682730737" />
+      <entry key="H4" value="205.83633460026343" />
+      <entry key="D1" value="466.8597377950914" />
+      <entry key="W1" value="629.7427459634217" />
     </decayedCancelled>
     <decayedSelected>
       <entry key="MS100" value="0.0" />
       <entry key="MS500" value="0.0" />
       <entry key="S2" value="0.0" />
       <entry key="S5" value="0.0" />
-      <entry key="S10" value="0.0" />
-      <entry key="S30" value="0.0" />
-      <entry key="S60" value="2.0793477572644077E-174" />
-      <entry key="M2" value="3.0866121688399255E-87" />
-      <entry key="M5" value="6.459640111582113E-35" />
-      <entry key="M10" value="1.7936611341680485E-17" />
-      <entry key="M15" value="1.1714304805098771E-11" />
-      <entry key="M30" value="7.806847569903628E-6" />
-      <entry key="H1" value="0.00795786575254474" />
-      <entry key="H2" value="0.40674400091524743" />
-      <entry key="H4" value="4.042700503631419" />
-      <entry key="D1" value="39.14379672065963" />
-      <entry key="W1" value="61.1352564572635" />
+      <entry key="S10" value="9.02096340936121E-174" />
+      <entry key="S30" value="2.204448124051867E-58" />
+      <entry key="S60" value="1.868724767436206E-29" />
+      <entry key="M2" value="9.264280685521757E-15" />
+      <entry key="M5" value="1.3530442408551021E-5" />
+      <entry key="M10" value="0.01862203385972618" />
+      <entry key="M15" value="0.21563065845449503" />
+      <entry key="M30" value="2.61318819209245" />
+      <entry key="H1" value="9.518113400270172" />
+      <entry key="H2" value="19.327646214013086" />
+      <entry key="H4" value="30.250129530445047" />
+      <entry key="D1" value="75.57879888906568" />
+      <entry key="W1" value="111.218926476522" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="0.40895102927889054" />
-      <entry key="MS500" value="0.836246415534701" />
-      <entry key="S2" value="0.9683796256404501" />
-      <entry key="S5" value="1.2561193064872733" />
-      <entry key="S10" value="2.0368213959903345" />
-      <entry key="S30" value="4.135888721351838" />
-      <entry key="S60" value="5.29556813346025" />
-      <entry key="M2" value="6.063691597125366" />
-      <entry key="M5" value="6.639265036319342" />
-      <entry key="M10" value="7.583958830100901" />
-      <entry key="M15" value="9.054226441818827" />
-      <entry key="M30" value="13.03242791744806" />
-      <entry key="H1" value="17.23108660713367" />
-      <entry key="H2" value="22.886687989061173" />
-      <entry key="H4" value="42.569519350367564" />
-      <entry key="D1" value="198.27400808119265" />
-      <entry key="W1" value="302.1539095430518" />
+      <entry key="MS100" value="0.9592641193252643" />
+      <entry key="MS500" value="0.9917167307382933" />
+      <entry key="S2" value="0.9979227189990506" />
+      <entry key="S5" value="0.999168569235105" />
+      <entry key="S10" value="0.9995931808019348" />
+      <entry key="S30" value="1.051889877028431" />
+      <entry key="S60" value="1.4585563973752462" />
+      <entry key="M2" value="2.419647680975224" />
+      <entry key="M5" value="4.105275578307693" />
+      <entry key="M10" value="5.520627532935297" />
+      <entry key="M15" value="7.593331390642416" />
+      <entry key="M30" value="23.774125137057663" />
+      <entry key="H1" value="70.86267750697898" />
+      <entry key="H2" value="144.3126829374511" />
+      <entry key="H4" value="236.07569211715298" />
+      <entry key="D1" value="542.4337830695208" />
+      <entry key="W1" value="740.9606547333191" />
     </decayedShown>
   </component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 1,
-  "fromUser": false
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1,
+  &quot;fromUser&quot;: false
+}</component>
   <component name="ProjectId" id="3FyJepCCa8rySTueR0QJoIZwpMH" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="1" id="Add" />
@@ -142,6 +136,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Docker.order-service/docker-compose.yaml.order-db: Compose Deployment.executor": "Run",
     "Gradle.Build sb4-ecommerce-ms-root.executor": "Run",
     "Gradle.JwtTokenProviderTest.GivenJWTShouldReturnUserName.executor": "Run",
     "Gradle.OrderTest.GivenOrder_WhenCreateOrder_ThenOrderCreated.executor": "Run",
@@ -156,7 +151,7 @@
     "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/dapcar01/gitrep/sb4-ecommerce-ms-root",
+    "last_opened_file_path": "C:/Users/dapcar01/gitrep/sb4-ecommerce-ms-root/services/order-service",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -165,10 +160,21 @@
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "reference.projectsettings.compiler.annotationProcessors"
+    "settings.editor.selected.configurable": "terminal"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql"
+    ]
   }
 }]]></component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\dapcar01\gitrep\sb4-ecommerce-ms-root\services\order-service" />
+      <recent name="C:\Users\dapcar01\gitrep\sb4-ecommerce-ms-root\services\customer-service\src\main\java" />
+      <recent name="C:\Users\dapcar01\gitrep\sb4-ecommerce-ms-root\services\order-service\src\main\resources\db\changelog" />
+      <recent name="C:\Users\dapcar01\gitrep\sb4-ecommerce-ms-root\services\order-service\src\main\resources" />
+    </key>
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
     </key>
@@ -180,7 +186,7 @@
       <recent name="br.com.cepp.ecommerce.platform.domain" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.JwtTokenProviderTest.GivenJWTShouldReturnUserName">
+  <component name="RunManager" selected="Docker.order-service/docker-compose.yaml.order-db: Compose Deployment">
     <configuration name="JwtTokenProviderTest.GivenJWTShouldReturnUserName" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -246,8 +252,28 @@
       <option name="filePath" />
       <method v="2" />
     </configuration>
+    <configuration default="true" type="docker-deploy" factoryName="docker-compose.yml" temporary="true">
+      <deployment type="docker-compose.yml">
+        <settings />
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration name="order-service/docker-compose.yaml.order-db: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="services">
+            <list>
+              <option value="order-db" />
+            </list>
+          </option>
+          <option name="sourceFilePath" value="services/order-service/docker-compose.yaml" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Docker.order-service/docker-compose.yaml.order-db: Compose Deployment" />
         <item itemvalue="Gradle.JwtTokenProviderTest.GivenJWTShouldReturnUserName" />
         <item itemvalue="Gradle.OrderTest.GivenOrder_WhenCreateOrder_ThenOrderCreated" />
       </list>
@@ -273,6 +299,17 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-docker-compose/4.1.0/50178ffd0b3bb2b49817bba89607405f7e2d492c/spring-boot-docker-compose-4.1.0-sources.jar!/org/springframework/boot/docker/compose/core/DefaultConnectionPorts.java</url>
+          <line>101</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

@@ -1,24 +1,38 @@
 [versions]
 aws-sdk = "2.25.0"
-lombok = "1.18.30"
+lombok = "1.18.34"
 java = "21"
 jjwt = "0.12.6"
 spring-boot = "4.1.0"
 spring-cloud = "2026.0.0"
 testcontainers = "1.19.0"
+mapstruct = "1.6.3"
+lombok-mapstruct = "0.2.0"
+h2 = "2.1.214"
 
 [libraries]
 # Define the central dictionary (BOM)
 spring-boot-bom = { group = "org.springframework.boot", name = "spring-boot-dependencies", version.ref = "spring-boot" }
 
 # Spring Boot
-spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web" }
-spring-boot-starter-data-jpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa" }
-spring-boot-starter-data-jdbc = { module = "org.springframework.boot:spring-boot-starter-jdbc" }
-spring-boot-starter-security = { module = "org.springframework.boot:spring-boot-starter-security" }
+spring-boot-devtools = { module = "org.springframework.boot:spring-boot-devtools" }
 spring-boot-starter-actuator = { module = "org.springframework.boot:spring-boot-starter-actuator" }
-spring-boot-starter-validation = { module = "org.springframework.boot:spring-boot-starter-validation" }
+spring-boot-starter-actuator-test = { module = "org.springframework.boot:spring-boot-starter-actuator-test" }
+spring-boot-starter-docker-compose = { module = "org.springframework.boot:spring-boot-starter-docker-compose" }
+spring-boot-starter-data-jdbc = { module = "org.springframework.boot:spring-boot-starter-jdbc" }
+spring-boot-starter-data-jpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa" }
+spring-boot-starter-data-jpa-test = { module = "org.springframework.boot:spring-boot-starter-data-jpa-test" }
+spring-boot-starter-hateoas-test = { module = "org.springframework.boot:spring-boot-starter-hateoas-test" }
+spring-boot-starter-hateoas = { module = "org.springframework.boot:spring-boot-starter-hateoas" }
+spring-boot-starter-restclient-test = { module = "org.springframework.boot:spring-boot-starter-restclient-test" }
+spring-boot-starter-restclient = { module = "org.springframework.boot:spring-boot-starter-restclient" }
+spring-boot-starter-liquibase = { module = "org.springframework.boot:spring-boot-starter-liquibase" }
+spring-boot-starter-liquibase-test = { module = "org.springframework.boot:spring-boot-starter-liquibase-test" }
 spring-boot-starter-json = { group = "org.springframework.boot", name = "spring-boot-starter-json" }
+spring-boot-starter-validation = { module = "org.springframework.boot:spring-boot-starter-validation" }
+spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web" }
+spring-boot-starter-security = { module = "org.springframework.boot:spring-boot-starter-security" }
+
 
 # Spring Cloud
 spring-cloud-starter-aws = { module = "io.awspring.cloud:spring-cloud-aws-starter", version = "3.1.0" }
@@ -29,9 +43,14 @@ jjwt-api = { group = "io.jsonwebtoken", name = "jjwt-api", version.ref = "jjwt" 
 jjwt-impl = { group = "io.jsonwebtoken", name = "jjwt-impl", version.ref = "jjwt" }
 jjwt-jackson = { group = "io.jsonwebtoken", name = "jjwt-jackson", version.ref = "jjwt" }
 
+# Mapstruct
+mapstruct-core = { module = "org.mapstruct:mapstruct", version.ref = "mapstruct" }
+mapstruct-processor = { module = "org.mapstruct:mapstruct-processor", version.ref = "mapstruct" }
+
 # Lombok
 # Version is omitted because Spring Boot's dependency management handles it
 lombok = { group = "org.projectlombok", name = "lombok", version.ref = "lombok" }
+lombok-mapstruct-binding = { module = "org.projectlombok:lombok-mapstruct-binding", version.ref = "lombok-mapstruct" }
 
 # AWS SDK
 aws-sdk-s3 = { module = "software.amazon.awssdk:s3", version.ref = "aws-sdk" }
@@ -40,12 +59,15 @@ aws-sdk-sqs = { module = "software.amazon.awssdk:sqs", version.ref = "aws-sdk" }
 
 # Database
 postgresql = { module = "org.postgresql:postgresql", version = "42.7.7" }
-flyway-core = { module = "org.flywaydb:flyway-core", version = "10.0.0" }
 liquibase-core = { module = "org.liquibase:liquibase-core" }
+h2-console = { module = "org.springframework.boot:spring-boot-h2console", version.ref = "h2" }
+h2-database = { module = "com.h2database:h2" }
 
 # Testing
 spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test" }
+spring-boot-testcontainers = { module = "org.springframework.boot:spring-boot-testcontainers" }
 testcontainers-postgresql = { module = "org.testcontainers:postgresql", version.ref = "testcontainers" }
+testcontainers-junit-jupter = { module = "org.testcontainers:testcontainers-junit-jupiter" }
 testcontainers-localstack = { module = "org.testcontainers:localstack", version.ref = "testcontainers" }
 
 # Observability

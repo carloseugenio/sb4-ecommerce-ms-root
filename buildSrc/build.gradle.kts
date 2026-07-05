@@ -10,7 +10,7 @@ repositories {
     mavenCentral()
 }
 
-dependencies {
-    // Allows buildSrc to see your version catalogs (libs.versions.toml)
-    implementation(files("../gradle/libs.versions.toml"))
-}
+//dependencies {
+//    // Allows buildSrc to see your version catalogs (libs.versions.toml)
+//    implementation(files("../gradle/libs.versions.toml"))
+//}
