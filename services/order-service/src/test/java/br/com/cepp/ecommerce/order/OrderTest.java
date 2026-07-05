@@ -1,4 +1,4 @@
-package br.com.cepp.ecommerce.platform.domain;
+package br.com.cepp.ecommerce.order;
 
 import org.junit.jupiter.api.Test;
 
@@ -23,4 +23,5 @@ class OrderTest {
         assertEquals(id, order.getId());
         assertEquals(1, order.getItems().size());
     }
+
 }

@@ -1,4 +1,4 @@
-package br.com.cepp.ecommerce.platform.domain;
+package br.com.cepp.ecommerce.order;
 
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;

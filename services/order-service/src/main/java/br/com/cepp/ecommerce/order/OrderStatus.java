@@ -1,4 +1,4 @@
-package br.com.cepp.ecommerce.platform.domain;
+package br.com.cepp.ecommerce.order;
 
 public enum OrderStatus {
 

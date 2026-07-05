@@ -69,7 +69,7 @@ management:
   metrics:
     export:
       cloudwatch:
-        namespace: SB4Ecommerce/OrderService
+        namespace: SB4ECommerce/OrderService
         enabled: true
         step: 1m
 
