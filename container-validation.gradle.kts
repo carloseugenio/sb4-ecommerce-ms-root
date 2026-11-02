@@ -33,12 +33,12 @@ allprojects {
                     throw GradleException(
                         """
                         |
-                        |❌ [BUILD BLOCKER] Container Engine Failure!
+                        | [BUILD BLOCKER] Container Engine Failure!
                         |======================================================================
                         |Project :$currentProjectName requires a container engine to boot infrastructure,
                         |but neither Podman nor Docker appears to be running on your machine.
                         |
-                        |👉 HOW TO FIX THIS ON WINDOWS:
+                        | HOW TO FIX THIS ON WINDOWS:
                         |   1. Launch Podman Desktop or Docker Desktop.
                         |   2. If using Podman via CLI, run: podman machine start
                         |   3. Verify it is running by typing: podman machine list
@@ -47,11 +47,6 @@ allprojects {
                     )
                 }
             }
-        }
-
-        // Bind by task type names as plain Strings
-        tasks.withType(JavaCompile::class.java).configureEach {
-            dependsOn(checkContainerEngine)
         }
 
         // Dynamic hook for bootRun to avoid referencing the Spring Boot specific class

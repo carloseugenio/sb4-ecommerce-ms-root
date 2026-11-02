@@ -1,0 +1,7 @@
+server:
+  port: ${SERVICE_PORT:8084}
+  shutdown: graceful
+
+spring:
+  application:
+    name: inventory-service

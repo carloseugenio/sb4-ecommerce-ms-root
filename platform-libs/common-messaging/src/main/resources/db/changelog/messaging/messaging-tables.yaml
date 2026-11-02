@@ -1,0 +1,34 @@
+databaseChangeLog:
+  - changeSet:
+      id: messaging-001-outbox-event
+      author: platform
+      changes:
+        - createTable:
+            tableName: outbox_event
+            columns:
+              - column: { name: event_id, type: uuid, constraints: { primaryKey: true, nullable: false } }
+              - column: { name: topic, type: varchar(200), constraints: { nullable: false } }
+              - column: { name: aggregate_id, type: varchar(100), constraints: { nullable: false } }
+              - column: { name: type, type: varchar(100), constraints: { nullable: false } }
+              - column: { name: payload, type: text, constraints: { nullable: false } }
+              - column: { name: created_at, type: timestamp with time zone, constraints: { nullable: false } }
+              - column: { name: published_at, type: timestamp with time zone }
+        - createIndex:
+            tableName: outbox_event
+            indexName: idx_outbox_event_pending
+            columns:
+              - column: { name: created_at }
+  - changeSet:
+      id: messaging-002-processed-message
+      author: platform
+      changes:
+        - createTable:
+            tableName: processed_message
+            columns:
+              - column: { name: event_id, type: uuid, constraints: { nullable: false } }
+              - column: { name: consumer, type: varchar(100), constraints: { nullable: false } }
+              - column: { name: processed_at, type: timestamp with time zone, constraints: { nullable: false } }
+        - addPrimaryKey:
+            tableName: processed_message
+            columnNames: event_id, consumer
+            constraintName: pk_processed_message

@@ -1,0 +1,42 @@
+databaseChangeLog:
+  - changeSet:
+      id: order-001-orders
+      author: order-service
+      changes:
+        - createTable:
+            tableName: orders
+            columns:
+              - column: { name: id, type: uuid, constraints: { primaryKey: true, nullable: false } }
+              - column: { name: customer_id, type: uuid, constraints: { nullable: false } }
+              - column: { name: currency, type: varchar(3), constraints: { nullable: false } }
+              - column: { name: total_amount, type: numeric(19,2), constraints: { nullable: false } }
+              - column: { name: status, type: varchar(20), constraints: { nullable: false } }
+              - column: { name: cancel_reason, type: varchar(50) }
+              - column: { name: version, type: bigint, constraints: { nullable: false } }
+              - column: { name: created_at, type: timestamp with time zone, constraints: { nullable: false } }
+              - column: { name: updated_at, type: timestamp with time zone, constraints: { nullable: false } }
+        - createIndex:
+            tableName: orders
+            indexName: idx_orders_status_created
+            columns:
+              - column: { name: status }
+              - column: { name: created_at }
+        - createTable:
+            tableName: order_item
+            columns:
+              - column: { name: order_id, type: uuid, constraints: { nullable: false, foreignKeyName: fk_order_item_order, references: orders(id) } }
+              - column: { name: product_id, type: uuid, constraints: { nullable: false } }
+              - column: { name: product_name, type: varchar(200), constraints: { nullable: false } }
+              - column: { name: quantity, type: int, constraints: { nullable: false } }
+              - column: { name: unit_price, type: numeric(19,2), constraints: { nullable: false } }
+  - changeSet:
+      id: order-002-idempotency-key
+      author: order-service
+      changes:
+        - createTable:
+            tableName: idempotency_key
+            columns:
+              - column: { name: key_value, type: varchar(100), constraints: { primaryKey: true, nullable: false } }
+              - column: { name: request_hash, type: varchar(64), constraints: { nullable: false } }
+              - column: { name: order_id, type: uuid, constraints: { nullable: false } }
+              - column: { name: created_at, type: timestamp with time zone, constraints: { nullable: false } }

@@ -1,23 +1,14 @@
 services:
-  # Database for Microservice Order Service
   order-db:
     image: postgres:17-alpine
-    container_name: ${DB_CONTAINER_NAME}
-    restart: always
     environment:
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: "${DB_PASSWORD}" # Quote strings to prevent parser edge-cases
-      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: order_service
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?set DB_PASSWORD in .env}
+      POSTGRES_DB: order_db
     ports:
-      - "${DB_HOST_PORT}:${DB_CONTAINER_PORT}"
+      - "5433:5432"
     volumes:
       - order_db_data:/var/lib/postgresql/data
-    networks:
-      - order-service
-
-networks:
-  order-service:
-    driver: bridge
 
 volumes:
-  order_db_data: # Tells Docker Compose to create and manage this named volume
+  order_db_data:

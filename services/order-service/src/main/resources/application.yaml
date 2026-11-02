@@ -1,83 +1,41 @@
-spring:
-  server:
-    port: ${SERVICE_PORT:8033}
-    shutdown: graceful
+server:
+  port: ${SERVICE_PORT:8082}
+  shutdown: graceful
 
+spring:
   application:
     name: order-service
-
   config:
     import: optional:file:.env[.properties]
-
-  docker:
-    compose:
-      skip:
-        .inbound-ports: 5432
   datasource:
-    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_CONTAINER_PORT:5432}/${DB_NAME:order-db}
-    username: ${DB_USERNAME:order-db}
-    password: ${DB_PASSWORD:1234}
-    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5433}/${DB_NAME:order_db}
+    username: ${DB_USERNAME:order_service}
+    password: ${DB_PASSWORD}
     hikari:
-      maximum-pool-size: 20
-      minimum-idle: 5
-      connection-timeout: 30000
-
+      maximum-pool-size: 10
   jpa:
     hibernate:
       ddl-auto: validate
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
-        format_sql: true
-    show-sql: false
-
-  flyway:
-    enabled: false
-    locations: classpath:db/migration
-    baseline-on-migrate: true
-
-  # Liquibase
+    open-in-view: false
   liquibase:
-    enabled: false
-    change-log: classpath:/db/changelog/db.changelog-master.yaml
-    liquibase-schema: public
-    driver-class-name: org.postgresql.Driver
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.yaml
 
-# AWS Configuration
-#aws:
-#  region: ${AWS_REGION:us-east-1}
-#  sqs:
-#    order-events-queue: ${ORDER_EVENTS_QUEUE_URL}
-#  s3:
-#    invoice-bucket: ${INVOICE_BUCKET_NAME}
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    consumer:
+      auto-offset-reset: earliest
 
-# Security
-jwt:
-  secret: ${JWT_SECRET:YourSuperLongAndSecureSecretKeyHereWhichIsMoreThan256BitsLong}
-  expiration-minutes: 60
-
-# Actuator endpoints
 management:
   endpoints:
     web:
       exposure:
-        include: health,info,metrics,prometheus
+        include: health,info
   endpoint:
     health:
-      show-details: always
-  metrics:
-    export:
-      cloudwatch:
-        namespace: SB4ECommerce/OrderService
+      probes:
         enabled: true
-        step: 1m
 
-# Logging
 logging:
   level:
-    br.com.cepp: ${LOG_LEVEL:DEBUG}
-    org.springframework.web: INFO
-    org.hibernate.SQL: DEBUG
-  pattern:
-    console: "%d{MM-dd HH:mm:ss} - %-5level %logger{36}.%M\\(%L\\) - %msg%n"
+    br.com.cepp: ${LOG_LEVEL:INFO}

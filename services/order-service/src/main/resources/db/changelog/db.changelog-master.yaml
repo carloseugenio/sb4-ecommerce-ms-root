@@ -1,4 +1,5 @@
 databaseChangeLog:
-  - includeAll:
-      path: db/changelog/datasets/
-      filter: ".*\\.yaml"  # Optional: ensures only YAML files are read
+  - include:
+      file: db/changelog/messaging/messaging-tables.yaml
+  - include:
+      file: db/changelog/orders/001-orders.yaml

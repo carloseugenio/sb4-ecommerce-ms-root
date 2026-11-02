@@ -5,7 +5,7 @@ plugins {
     alias(libs.plugins.spring.dependency.management) apply false
 }
 
-// 📂 Import the separated validation script
+//  Import the separated validation script
 project.apply { from("container-validation.gradle.kts") }
 
 tasks.jar { enabled = false }
@@ -35,3 +35,20 @@ subprojects {
         }
     }
 }
+
+// Module direction rules: services never depend on other services; libs never depend on services.
+tasks.register("checkModuleDirection") {
+    group = "verification"
+    description = "Fails if a service depends on another service or a lib depends on a service."
+    val files = subprojects.map { it.path to it.buildFile }
+    doLast {
+        val violations = files.filter { (path, file) ->
+            file.exists() && (
+                (path.startsWith(":services:") && Regex("project\\(\"(:services:[^\"]+)\"\\)").findAll(file.readText()).any { it.groupValues[1] != path }) ||
+                (path.startsWith(":platform-libs:") && file.readText().contains("project(\":services:"))
+            )
+        }.map { it.first }
+        if (violations.isNotEmpty()) throw GradleException("Illegal module dependencies in: $violations")
+    }
+}
+tasks.named("check") { dependsOn("checkModuleDirection") }
