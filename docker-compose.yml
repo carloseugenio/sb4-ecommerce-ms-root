@@ -30,6 +30,16 @@ services:
     ports: ["5435:5432"]
     volumes: [payment_db_data:/var/lib/postgresql/data]
 
+  inventory-db:
+    image: postgres:${DB_IMAGE_TAG:-17-alpine}
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: inventory_service
+      POSTGRES_PASSWORD: ${INVENTORY_DB_PASSWORD:?set in .env}
+      POSTGRES_DB: inventory_db
+    ports: ["5436:5432"]
+    volumes: [inventory_db_data:/var/lib/postgresql/data]
+
   kafka:
     image: apache/kafka:${KAFKA_IMAGE_TAG:-3.9.1}
     restart: unless-stopped
@@ -50,4 +60,4 @@ volumes:
   order_db_data:
   customer_db_data:
   payment_db_data:
-
+  inventory_db_data:

@@ -1,0 +1,26 @@
+databaseChangeLog:
+  - changeSet:
+      id: inventory-001-stock-reservation
+      author: inventory-service
+      changes:
+        - createTable:
+            tableName: stock
+            columns:
+              - column: { name: product_id, type: uuid, constraints: { primaryKey: true, nullable: false } }
+              - column: { name: available, type: int, constraints: { nullable: false } }
+              - column: { name: reserved, type: int, constraints: { nullable: false } }
+              - column: { name: version, type: bigint, constraints: { nullable: false } }
+        - sql:
+            sql: ALTER TABLE stock ADD CONSTRAINT chk_stock_non_negative CHECK (available >= 0 AND reserved >= 0)
+        - createTable:
+            tableName: reservation
+            columns:
+              - column: { name: order_id, type: uuid, constraints: { primaryKey: true, nullable: false } }
+              - column: { name: status, type: varchar(20), constraints: { nullable: false } }
+              - column: { name: created_at, type: timestamp with time zone, constraints: { nullable: false } }
+        - createTable:
+            tableName: reservation_line
+            columns:
+              - column: { name: order_id, type: uuid, constraints: { nullable: false, foreignKeyName: fk_reservation_line_reservation, references: reservation(order_id) } }
+              - column: { name: product_id, type: uuid, constraints: { nullable: false } }
+              - column: { name: quantity, type: int, constraints: { nullable: false } }
