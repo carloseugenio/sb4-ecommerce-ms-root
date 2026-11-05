@@ -1,5 +1,6 @@
 package br.com.cepp.ecommerce.order;
 
+import br.com.cepp.ecommerce.platform.domain.money.MoneyPolicy;
 import br.com.cepp.ecommerce.platform.domain.refund.RefundAllocator;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
@@ -182,14 +183,9 @@ public class Order {
         updatedAt = Instant.now();
     }
 
-    /** Decimal places of the order currency (2 for BRL, 0 for JPY, 3 for KWD); 2 if the code is not an ISO currency. */
+    /** Decimal places of the order currency according to the platform money policy. */
     public int currencyScale() {
-        try {
-            int digits = java.util.Currency.getInstance(currency).getDefaultFractionDigits();
-            return digits < 0 ? 2 : digits;
-        } catch (IllegalArgumentException e) {
-            return 2;
-        }
+        return MoneyPolicy.scale(currency);
     }
 
     public UUID getId() {
@@ -218,7 +214,7 @@ public class Order {
 
     /** Total refunded so far, always with the scale of the order currency. */
     public BigDecimal getRefundedAmount() {
-        return refundedAmount.setScale(currencyScale(), RoundingMode.HALF_UP);
+        return refundedAmount.setScale(currencyScale(), MoneyPolicy.ROUNDING);
     }
 
     public List<OrderItem> getItems() {

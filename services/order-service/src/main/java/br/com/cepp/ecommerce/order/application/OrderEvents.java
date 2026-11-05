@@ -6,8 +6,8 @@ import br.com.cepp.ecommerce.platform.domain.event.CheckoutEvents.OrderRefunded;
 import br.com.cepp.ecommerce.platform.domain.event.CheckoutEvents.OrderRefundReversed;
 import br.com.cepp.ecommerce.platform.domain.event.CheckoutEvents.PaymentVoidRequested;
 import br.com.cepp.ecommerce.platform.domain.event.CheckoutEvents.RefundLine;
+import br.com.cepp.ecommerce.platform.domain.money.MoneyPolicy;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -74,6 +74,6 @@ class OrderEvents {
     void paymentVoidRequested(Order o, UUID paymentId, String correlationId, String causationId) {
         outbox.record(Topics.PAYMENT_VOID_REQUESTED, EventEnvelope.of("PaymentVoidRequested", o.getId().toString(),
                 correlationId, causationId, new PaymentVoidRequested(o.getId(), paymentId,
-                        o.getTotalAmount().setScale(o.currencyScale(), RoundingMode.HALF_UP), o.getCurrency())));
+                        MoneyPolicy.round(o.getTotalAmount(), o.getCurrency()), o.getCurrency())));
     }
 }

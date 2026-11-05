@@ -1,8 +1,8 @@
 package br.com.cepp.ecommerce.order;
 
+import br.com.cepp.ecommerce.platform.domain.money.MoneyPolicy;
 import jakarta.persistence.Embeddable;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.UUID;
 
 @Embeddable
@@ -30,14 +30,14 @@ public record OrderItem(UUID productId, String productName, int quantity, BigDec
         return unitPrice.multiply(BigDecimal.valueOf(quantity));
     }
 
-    /** What can still be refunded for this line: the subtotal rounded HALF_UP to {@code scale} minus what was refunded. */
+    /** What can still be refunded for this line: the subtotal rounded with the platform rounding to {@code scale} minus what was refunded. */
     public BigDecimal remaining(int scale) {
-        return subtotal().setScale(scale, RoundingMode.HALF_UP)
-                .subtract(refundedAmount.setScale(scale, RoundingMode.HALF_UP));
+        return subtotal().setScale(scale, MoneyPolicy.ROUNDING)
+                .subtract(refundedAmount.setScale(scale, MoneyPolicy.ROUNDING));
     }
 
     OrderItem withRefund(BigDecimal share, int scale) {
         return new OrderItem(productId, productName, quantity, unitPrice,
-                refundedAmount.setScale(scale, RoundingMode.HALF_UP).add(share));
+                refundedAmount.setScale(scale, MoneyPolicy.ROUNDING).add(share));
     }
 }

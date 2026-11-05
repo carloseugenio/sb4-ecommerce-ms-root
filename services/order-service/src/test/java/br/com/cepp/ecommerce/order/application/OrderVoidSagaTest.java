@@ -96,7 +96,7 @@ class OrderVoidSagaTest {
     }
 
     @Test
-    void voidAmountUsesTheCurrencyScaleAndRoundsHalfUp() {
+    void voidAmountUsesTheCurrencyScaleAndTheMoneyPolicyRounding() {
         Order o = Order.place(UUID.randomUUID(), "JPY",
                 List.of(new OrderItem(UUID.randomUUID(), "A", 2, new BigDecimal("350.25"))));
         when(orders.findById(o.getId())).thenReturn(Optional.of(o));
@@ -108,6 +108,6 @@ class OrderVoidSagaTest {
         @SuppressWarnings("unchecked")
         ArgumentCaptor<EventEnvelope<?>> captor = ArgumentCaptor.forClass(EventEnvelope.class);
         verify(outbox).record(eq(Topics.PAYMENT_VOID_REQUESTED), captor.capture());
-        assertEquals(new BigDecimal("701"), ((PaymentVoidRequested) captor.getValue().payload()).amount());
+        assertEquals(new BigDecimal("700"), ((PaymentVoidRequested) captor.getValue().payload()).amount());
     }
 }

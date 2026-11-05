@@ -89,6 +89,9 @@ class OrderRefundTest {
     void refundedStatusRoundTripsThroughOrderItemHelpers() {
         OrderItem item = new OrderItem(UUID.randomUUID(), "A", 2, new BigDecimal("1.005"));
         assertEquals(new BigDecimal("2.01"), item.remaining(2));
+        assertEquals(new BigDecimal("1.02"), new OrderItem(UUID.randomUUID(), "A", 1, new BigDecimal("1.025")).remaining(2));
+        assertEquals(new BigDecimal("4"), new OrderItem(UUID.randomUUID(), "A", 1, new BigDecimal("3.5")).remaining(0));
+        assertEquals(new BigDecimal("2"), new OrderItem(UUID.randomUUID(), "A", 1, new BigDecimal("2.5")).remaining(0));
         assertEquals(0, item.refundedAmount().signum());
         assertEquals(0, new OrderItem(UUID.randomUUID(), "A", 1, BigDecimal.ONE, null).refundedAmount().signum());
     }
@@ -96,15 +99,35 @@ class OrderRefundTest {
     @Test
     void fullyRefundedMeansNoLineHasAnythingLeftEvenWhenLineRoundingExceedsTheTotal() {
         Order o = Order.place(UUID.randomUUID(), "BRL", List.of(
-                new OrderItem(UUID.randomUUID(), "A", 1, new BigDecimal("1.005")),
-                new OrderItem(UUID.randomUUID(), "B", 1, new BigDecimal("1.005"))));
+                new OrderItem(UUID.randomUUID(), "A", 1, new BigDecimal("1.015")),
+                new OrderItem(UUID.randomUUID(), "B", 1, new BigDecimal("1.015"))));
         o.confirm();
         assertEquals(d("1.01", "1.00"), o.refund(new BigDecimal("2.01")));
         assertEquals(OrderStatus.CONFIRMED, o.getStatus());
-        assertEquals(d("0.00", "0.01"), o.refund(new BigDecimal("0.01")));
+        assertEquals(d("0.01", "0.02"), o.refund(new BigDecimal("0.03")));
         assertEquals(OrderStatus.REFUNDED, o.getStatus());
-        assertEquals(new BigDecimal("2.02"), o.getRefundedAmount());
+        assertEquals(new BigDecimal("2.04"), o.getRefundedAmount());
         assertThrows(IllegalStateException.class, () -> o.refund(new BigDecimal("0.01")));
+    }
+
+    @Test
+    void halfEvenRoundingDecidesWhatACanStillBeRefunded() {
+        Order o = Order.place(UUID.randomUUID(), "BRL", List.of(
+                new OrderItem(UUID.randomUUID(), "A", 1, new BigDecimal("1.025"))));
+        o.confirm();
+        assertThrows(IllegalArgumentException.class, () -> o.refund(new BigDecimal("1.03")));
+        assertEquals(d("1.02"), o.refund(new BigDecimal("1.02")));
+        assertEquals(OrderStatus.REFUNDED, o.getStatus());
+    }
+
+    @Test
+    void currenciesUseTheDecimalPlacesOfThePlatformMoneyPolicy() {
+        Order o = Order.place(UUID.randomUUID(), "CLP", List.of(
+                new OrderItem(UUID.randomUUID(), "A", 1, new BigDecimal("10.00"))));
+        o.confirm();
+        assertEquals(new BigDecimal("0.00"), o.getRefundedAmount());
+        assertEquals(d("0.01"), o.refund(new BigDecimal("0.01")));
+        assertEquals(new BigDecimal("0.01"), o.getRefundedAmount());
     }
 
     @Test
