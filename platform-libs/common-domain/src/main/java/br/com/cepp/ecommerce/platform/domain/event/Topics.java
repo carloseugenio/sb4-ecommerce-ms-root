@@ -7,6 +7,7 @@ public final class Topics {
     public static final String ORDER_CONFIRMED = "order.confirmed.v1";
     public static final String ORDER_CANCELLED = "order.cancelled.v1";
     public static final String ORDER_REFUNDED = "order.refunded.v1";
+    public static final String ORDER_REFUND_REVERSED = "order.refund-reversed.v1";
     public static final String PAYMENT_VOID_REQUESTED = "order.payment-void-requested.v1";
     public static final String STOCK_RESERVED = "inventory.stock-reserved.v1";
     public static final String STOCK_REJECTED = "inventory.stock-rejected.v1";

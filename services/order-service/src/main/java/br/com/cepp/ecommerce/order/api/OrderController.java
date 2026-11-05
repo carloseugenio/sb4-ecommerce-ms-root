@@ -71,6 +71,18 @@ class OrderController {
         return OrderResponse.from(service.refund(id, request.amount(), key));
     }
 
+    @PostMapping("/{id}/refunds/undo")
+    OrderResponse undoRefund(@PathVariable UUID id,
+                             @RequestHeader(value = "Idempotency-Key", required = false) String key) {
+        return OrderResponse.from(service.undoRefund(id, key));
+    }
+
+    @PostMapping("/{id}/refunds/redo")
+    OrderResponse redoRefund(@PathVariable UUID id,
+                             @RequestHeader(value = "Idempotency-Key", required = false) String key) {
+        return OrderResponse.from(service.redoRefund(id, key));
+    }
+
     @GetMapping("/{id}")
     OrderResponse get(@PathVariable UUID id) {
         return OrderResponse.from(service.get(id));

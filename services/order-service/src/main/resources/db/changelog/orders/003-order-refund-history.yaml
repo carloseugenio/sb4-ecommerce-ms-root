@@ -1,0 +1,12 @@
+databaseChangeLog:
+  - changeSet:
+      id: order-004-refund-history
+      author: order-service
+      changes:
+        - createTable:
+            tableName: order_refund
+            columns:
+              - column: { name: order_id, type: uuid, constraints: { nullable: false, foreignKeyName: fk_order_refund_order, references: orders(id) } }
+              - column: { name: seq, type: int, constraints: { nullable: false } }
+              - column: { name: shares, type: varchar(1000), constraints: { nullable: false } }
+              - column: { name: undone, type: boolean, defaultValueBoolean: false, constraints: { nullable: false } }

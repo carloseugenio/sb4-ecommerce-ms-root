@@ -30,6 +30,10 @@ public final class CheckoutEvents {
                                 boolean full, List<RefundLine> lines) {
     }
 
+    public record OrderRefundReversed(UUID orderId, BigDecimal amount, BigDecimal totalRefunded, String currency,
+                                      List<RefundLine> lines) {
+    }
+
     public record PaymentVoidRequested(UUID orderId, UUID paymentId, BigDecimal amount, String currency) {
     }
 

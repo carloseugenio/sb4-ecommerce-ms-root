@@ -5,3 +5,5 @@ databaseChangeLog:
       file: db/changelog/orders/001-orders.yaml
   - include:
       file: db/changelog/orders/002-order-refunds.yaml
+  - include:
+      file: db/changelog/orders/003-order-refund-history.yaml

@@ -3,6 +3,7 @@ package br.com.cepp.ecommerce.order.application;
 import br.com.cepp.ecommerce.order.Order;
 import br.com.cepp.ecommerce.order.OrderStatus;
 import br.com.cepp.ecommerce.platform.domain.event.CheckoutEvents.OrderRefunded;
+import br.com.cepp.ecommerce.platform.domain.event.CheckoutEvents.OrderRefundReversed;
 import br.com.cepp.ecommerce.platform.domain.event.CheckoutEvents.PaymentVoidRequested;
 import br.com.cepp.ecommerce.platform.domain.event.CheckoutEvents.RefundLine;
 import java.math.BigDecimal;
@@ -46,16 +47,28 @@ class OrderEvents {
     }
 
     void refunded(Order o, List<BigDecimal> shares) {
+        var amount = shares.stream().reduce(BigDecimal.ZERO, BigDecimal::add);
+        outbox.record(Topics.ORDER_REFUNDED, EventEnvelope.of("OrderRefunded", o.getId().toString(),
+                o.getId().toString(), null, new OrderRefunded(o.getId(), amount,
+                        o.getRefundedAmount(), o.getCurrency(), o.getStatus() == OrderStatus.REFUNDED,
+                        refundLines(o, shares))));
+    }
+
+    void refundReversed(Order o, List<BigDecimal> shares) {
+        var amount = shares.stream().reduce(BigDecimal.ZERO, BigDecimal::add);
+        outbox.record(Topics.ORDER_REFUND_REVERSED, EventEnvelope.of("OrderRefundReversed", o.getId().toString(),
+                o.getId().toString(), null, new OrderRefundReversed(o.getId(), amount,
+                        o.getRefundedAmount(), o.getCurrency(), refundLines(o, shares))));
+    }
+
+    private static List<RefundLine> refundLines(Order o, List<BigDecimal> shares) {
         var lines = new ArrayList<RefundLine>();
         for (int i = 0; i < shares.size(); i++) {
             if (shares.get(i).signum() > 0) {
                 lines.add(new RefundLine(o.getItems().get(i).productId(), shares.get(i)));
             }
         }
-        var amount = shares.stream().reduce(BigDecimal.ZERO, BigDecimal::add);
-        outbox.record(Topics.ORDER_REFUNDED, EventEnvelope.of("OrderRefunded", o.getId().toString(),
-                o.getId().toString(), null, new OrderRefunded(o.getId(), amount,
-                        o.getRefundedAmount(), o.getCurrency(), o.getStatus() == OrderStatus.REFUNDED, lines)));
+        return lines;
     }
 
     void paymentVoidRequested(Order o, UUID paymentId, String correlationId, String causationId) {

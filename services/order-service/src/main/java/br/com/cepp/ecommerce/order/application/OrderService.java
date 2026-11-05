@@ -57,6 +57,41 @@ public class OrderService {
         return order;
     }
 
+    /** Takes back the latest refund still in effect; with a key, a repeated request returns the order unchanged. */
+    @Transactional
+    public Order undoRefund(UUID id, String idempotencyKey) {
+        return reverse(id, idempotencyKey, "undo");
+    }
+
+    /** Applies the oldest undone refund again; with a key, a repeated request returns the order unchanged. */
+    @Transactional
+    public Order redoRefund(UUID id, String idempotencyKey) {
+        return reverse(id, idempotencyKey, "redo");
+    }
+
+    private Order reverse(UUID id, String idempotencyKey, String kind) {
+        String hash = sha256(kind + "|" + id);
+        if (idempotencyKey != null) {
+            var stored = idempotency.find(idempotencyKey);
+            if (stored.isPresent()) {
+                if (!stored.get().requestHash().equals(hash) || !id.equals(stored.get().orderId())) {
+                    throw new IdempotencyConflictException(idempotencyKey);
+                }
+                return orders.findById(id).orElseThrow(() -> new OrderNotFoundException(id));
+            }
+        }
+        Order order = orders.findById(id).orElseThrow(() -> new OrderNotFoundException(id));
+        if (kind.equals("undo")) {
+            events.refundReversed(order, order.undoRefund());
+        } else {
+            events.refunded(order, order.redoRefund());
+        }
+        if (idempotencyKey != null) {
+            idempotency.save(idempotencyKey, hash, order.getId());
+        }
+        return order;
+    }
+
     private record PlaceItemHash(UUID productId, String productName, int quantity, BigDecimal unitPrice) {
     }
 

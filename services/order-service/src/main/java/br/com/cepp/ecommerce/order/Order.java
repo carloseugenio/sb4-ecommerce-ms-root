@@ -39,6 +39,10 @@ public class Order {
     @CollectionTable(name = "order_item", joinColumns = @JoinColumn(name = "order_id"))
     private List<OrderItem> items = new ArrayList<>();
 
+    @ElementCollection
+    @CollectionTable(name = "order_refund", joinColumns = @JoinColumn(name = "order_id"))
+    private List<RefundEntry> refundLog = new ArrayList<>();
+
     @Version
     private long version;
 
@@ -105,15 +109,77 @@ public class Order {
         int scale = currencyScale();
         List<BigDecimal> shares = RefundAllocator.allocate(amount,
                 items.stream().map(i -> i.remaining(scale)).toList(), scale);
+        refundLog.removeIf(RefundEntry::undone);
+        int next = refundLog.stream().mapToInt(RefundEntry::seq).max().orElse(0) + 1;
+        refundLog.add(RefundEntry.of(next, shares));
+        apply(shares, scale);
+        return shares;
+    }
+
+    /**
+     * Takes back the most recent refund that is still in effect: every item and the running total give back exactly
+     * the shares of that refund, and a REFUNDED order becomes CONFIRMED again.
+     *
+     * @return the shares that were taken back, in item order
+     * @throws IllegalStateException if the order is not CONFIRMED or REFUNDED, or no refund is in effect
+     */
+    public List<BigDecimal> undoRefund() {
+        if (status != OrderStatus.CONFIRMED && status != OrderStatus.REFUNDED) {
+            throw new IllegalStateException("Only a confirmed or refunded order can have a refund undone, but it is " + status);
+        }
+        int index = -1;
+        for (int i = 0; i < refundLog.size(); i++) {
+            RefundEntry e = refundLog.get(i);
+            if (!e.undone() && (index < 0 || e.seq() > refundLog.get(index).seq())) {
+                index = i;
+            }
+        }
+        if (index < 0) {
+            throw new IllegalStateException("There is no refund to undo");
+        }
+        RefundEntry entry = refundLog.get(index);
+        List<BigDecimal> shares = entry.shareList();
+        refundLog.set(index, entry.withUndone(true));
+        apply(shares.stream().map(BigDecimal::negate).toList(), currencyScale());
+        return shares;
+    }
+
+    /**
+     * Applies again the undone refund that was undone first (the oldest one), with exactly the shares it had. A new
+     * refund discards everything that was undone before it.
+     *
+     * @return the shares that were applied, in item order
+     * @throws IllegalStateException if the order is not CONFIRMED or nothing was undone
+     */
+    public List<BigDecimal> redoRefund() {
+        if (status != OrderStatus.CONFIRMED) {
+            throw new IllegalStateException("Only a confirmed order can have a refund redone, but it is " + status);
+        }
+        int index = -1;
+        for (int i = 0; i < refundLog.size(); i++) {
+            RefundEntry e = refundLog.get(i);
+            if (e.undone() && (index < 0 || e.seq() < refundLog.get(index).seq())) {
+                index = i;
+            }
+        }
+        if (index < 0) {
+            throw new IllegalStateException("There is no undone refund to redo");
+        }
+        RefundEntry entry = refundLog.get(index);
+        List<BigDecimal> shares = entry.shareList();
+        refundLog.set(index, entry.withUndone(false));
+        apply(shares, currencyScale());
+        return shares;
+    }
+
+    private void apply(List<BigDecimal> shares, int scale) {
         for (int i = 0; i < items.size(); i++) {
             items.set(i, items.get(i).withRefund(shares.get(i), scale));
         }
         refundedAmount = getRefundedAmount().add(shares.stream().reduce(BigDecimal.ZERO, BigDecimal::add));
-        if (items.stream().allMatch(i -> i.remaining(scale).signum() == 0)) {
-            status = OrderStatus.REFUNDED;
-        }
+        boolean nothingLeft = items.stream().allMatch(i -> i.remaining(scale).signum() == 0);
+        status = nothingLeft ? OrderStatus.REFUNDED : OrderStatus.CONFIRMED;
         updatedAt = Instant.now();
-        return shares;
     }
 
     /** Decimal places of the order currency (2 for BRL, 0 for JPY, 3 for KWD); 2 if the code is not an ISO currency. */
