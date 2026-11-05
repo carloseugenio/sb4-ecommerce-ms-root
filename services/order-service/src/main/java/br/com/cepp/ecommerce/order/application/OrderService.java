@@ -2,6 +2,7 @@ package br.com.cepp.ecommerce.order.application;
 
 import br.com.cepp.ecommerce.order.Order;
 import br.com.cepp.ecommerce.order.OrderRepository;
+import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.HexFormat;
@@ -23,6 +24,14 @@ public class OrderService {
         this.idempotency = idempotency;
         this.events = events;
         this.json = json;
+    }
+
+    @Transactional
+    public Order refund(UUID id, BigDecimal amount) {
+        Order order = orders.findById(id).orElseThrow(() -> new OrderNotFoundException(id));
+        var shares = order.refund(amount);
+        events.refunded(order, amount, shares);
+        return order;
     }
 
     /** Creates the order and the OrderPlaced outbox event in one transaction; replays the result for a repeated key. */

@@ -1,6 +1,15 @@
 package br.com.cepp.ecommerce.order.application;
 
 import br.com.cepp.ecommerce.order.Order;
+import br.com.cepp.ecommerce.order.OrderStatus;
+import br.com.cepp.ecommerce.platform.domain.event.CheckoutEvents.OrderRefunded;
+import br.com.cepp.ecommerce.platform.domain.event.CheckoutEvents.PaymentVoidRequested;
+import br.com.cepp.ecommerce.platform.domain.event.CheckoutEvents.RefundLine;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 import br.com.cepp.ecommerce.platform.domain.event.CheckoutEvents.OrderCancelled;
 import br.com.cepp.ecommerce.platform.domain.event.CheckoutEvents.OrderConfirmed;
 import br.com.cepp.ecommerce.platform.domain.event.CheckoutEvents.OrderLine;
@@ -34,5 +43,23 @@ class OrderEvents {
     void cancelled(Order o, String correlationId, String causationId) {
         outbox.record(Topics.ORDER_CANCELLED, EventEnvelope.of("OrderCancelled", o.getId().toString(),
                 correlationId, causationId, new OrderCancelled(o.getId(), o.getCancelReason())));
+    }
+
+    void refunded(Order o, BigDecimal amount, List<BigDecimal> shares) {
+        var lines = new ArrayList<RefundLine>();
+        for (int i = 0; i < shares.size(); i++) {
+            if (shares.get(i).signum() > 0) {
+                lines.add(new RefundLine(o.getItems().get(i).productId(), shares.get(i)));
+            }
+        }
+        outbox.record(Topics.ORDER_REFUNDED, EventEnvelope.of("OrderRefunded", o.getId().toString(),
+                o.getId().toString(), null, new OrderRefunded(o.getId(), amount.setScale(2, RoundingMode.UNNECESSARY),
+                        o.getRefundedAmount(), o.getCurrency(), o.getStatus() == OrderStatus.REFUNDED, lines)));
+    }
+
+    void paymentVoidRequested(Order o, UUID paymentId, String correlationId, String causationId) {
+        outbox.record(Topics.PAYMENT_VOID_REQUESTED, EventEnvelope.of("PaymentVoidRequested", o.getId().toString(),
+                correlationId, causationId, new PaymentVoidRequested(o.getId(), paymentId,
+                        o.getTotalAmount().setScale(2, RoundingMode.HALF_UP), o.getCurrency())));
     }
 }

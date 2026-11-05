@@ -21,6 +21,11 @@ class OrderExceptionHandler {
         return ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, "A request with this Idempotency-Key is in progress");
     }
 
+    @ExceptionHandler(IllegalStateException.class)
+    ProblemDetail conflict(IllegalStateException e) {
+        return ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, e.getMessage());
+    }
+
     @ExceptionHandler(OrderNotFoundException.class)
     ProblemDetail notFound(OrderNotFoundException e) {
         return ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, e.getMessage());

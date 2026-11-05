@@ -43,8 +43,8 @@ public class OrderSagaHandler {
         } else if (order.confirm()) {
             events.confirmed(order, event.correlationId(), event.eventId().toString());
         } else if (order.getStatus() == OrderStatus.CANCELLED) {
-            // TODO(payment phase): request refund/void for a payment authorized after cancellation.
-            log.warn("PaymentAuthorized arrived for cancelled order {}", order.getId());
+            events.paymentVoidRequested(order, event.payload().paymentId(), event.correlationId(),
+                    event.eventId().toString());
         }
     }
 

@@ -1,5 +1,6 @@
 package br.com.cepp.ecommerce.order;
 
+import br.com.cepp.ecommerce.platform.domain.refund.RefundAllocator;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -11,6 +12,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +34,7 @@ public class Order {
 
     private String cancelReason;
 
+    private BigDecimal refundedAmount = BigDecimal.ZERO.setScale(2);
     @ElementCollection
     @CollectionTable(name = "order_item", joinColumns = @JoinColumn(name = "order_id"))
     private List<OrderItem> items = new ArrayList<>();
@@ -86,6 +89,31 @@ public class Order {
         return true;
     }
 
+    /**
+     * Refunds part of a confirmed order. The amount is split over the lines in proportion to what each line can
+     * still be refunded. Moves to REFUNDED once the whole total has been refunded.
+     *
+     * @return the share given to each item, in item order, all with scale 2
+     * @throws IllegalStateException    if the order is not CONFIRMED
+     * @throws IllegalArgumentException if the amount is invalid or larger than what is left to refund
+     */
+    public List<BigDecimal> refund(BigDecimal amount) {
+        if (status != OrderStatus.CONFIRMED) {
+            throw new IllegalStateException("Only a confirmed order can be refunded, but it is " + status);
+        }
+        List<BigDecimal> shares = RefundAllocator.allocate(amount,
+                items.stream().map(OrderItem::remaining).toList());
+        for (int i = 0; i < items.size(); i++) {
+            items.set(i, items.get(i).withRefund(shares.get(i)));
+        }
+        refundedAmount = refundedAmount.add(amount.setScale(2, RoundingMode.UNNECESSARY));
+        if (refundedAmount.compareTo(totalAmount) == 0) {
+            status = OrderStatus.REFUNDED;
+        }
+        updatedAt = Instant.now();
+        return shares;
+    }
+
     public UUID getId() {
         return id;
     }
@@ -108,6 +136,11 @@ public class Order {
 
     public String getCancelReason() {
         return cancelReason;
+    }
+
+    /** Total refunded so far, always with scale 2. */
+    public BigDecimal getRefundedAmount() {
+        return refundedAmount;
     }
 
     public List<OrderItem> getItems() {

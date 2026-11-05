@@ -37,10 +37,15 @@ class OrderController {
                              @NotEmpty List<@Valid ItemRequest> items) {
     }
 
-    record OrderResponse(UUID id, OrderStatus status, BigDecimal totalAmount, String currency, String cancelReason) {
+    record RefundRequest(@NotNull BigDecimal amount) {
+    }
+
+    record OrderResponse(UUID id, OrderStatus status, BigDecimal totalAmount, String currency, String cancelReason,
+                         BigDecimal refundedAmount) {
 
         static OrderResponse from(Order o) {
-            return new OrderResponse(o.getId(), o.getStatus(), o.getTotalAmount(), o.getCurrency(), o.getCancelReason());
+            return new OrderResponse(o.getId(), o.getStatus(), o.getTotalAmount(), o.getCurrency(), o.getCancelReason(),
+                    o.getRefundedAmount());
         }
     }
 
@@ -57,6 +62,11 @@ class OrderController {
         var items = request.items().stream()
                 .map(i -> new OrderItem(i.productId(), i.productName(), i.quantity(), i.unitPrice())).toList();
         return OrderResponse.from(service.place(key, new PlaceOrderCommand(request.customerId(), request.currency(), items)));
+    }
+
+    @PostMapping("/{id}/refunds")
+    OrderResponse refund(@PathVariable UUID id, @Valid @RequestBody RefundRequest request) {
+        return OrderResponse.from(service.refund(id, request.amount()));
     }
 
     @GetMapping("/{id}")

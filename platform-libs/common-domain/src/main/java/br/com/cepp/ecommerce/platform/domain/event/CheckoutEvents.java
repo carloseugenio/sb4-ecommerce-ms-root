@@ -23,6 +23,16 @@ public final class CheckoutEvents {
     public record OrderCancelled(UUID orderId, String reason) {
     }
 
+    public record RefundLine(UUID productId, BigDecimal amount) {
+    }
+
+    public record OrderRefunded(UUID orderId, BigDecimal amount, BigDecimal totalRefunded, String currency,
+                                boolean full, List<RefundLine> lines) {
+    }
+
+    public record PaymentVoidRequested(UUID orderId, UUID paymentId, BigDecimal amount, String currency) {
+    }
+
     public record StockReserved(UUID orderId, BigDecimal totalAmount, String currency) {
     }
 

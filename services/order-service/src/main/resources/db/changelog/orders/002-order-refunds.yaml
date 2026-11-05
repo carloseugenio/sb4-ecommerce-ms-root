@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: order-003-refunds
+      author: order-service
+      changes:
+        - addColumn:
+            tableName: orders
+            columns:
+              - column: { name: refunded_amount, type: numeric(19,2), defaultValueNumeric: 0, constraints: { nullable: false } }
+        - addColumn:
+            tableName: order_item
+            columns:
+              - column: { name: refunded_amount, type: numeric(19,2), defaultValueNumeric: 0, constraints: { nullable: false } }

@@ -3,3 +3,5 @@ databaseChangeLog:
       file: db/changelog/messaging/messaging-tables.yaml
   - include:
       file: db/changelog/orders/001-orders.yaml
+  - include:
+      file: db/changelog/orders/002-order-refunds.yaml
