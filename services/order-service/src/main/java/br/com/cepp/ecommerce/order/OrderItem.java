@@ -19,8 +19,7 @@ public record OrderItem(UUID productId, String productName, int quantity, BigDec
         if (unitPrice == null || unitPrice.signum() <= 0) {
             throw new IllegalArgumentException("unitPrice must be > 0");
         }
-        refundedAmount = refundedAmount == null ? BigDecimal.ZERO.setScale(2)
-                : refundedAmount.setScale(2, RoundingMode.HALF_UP);
+        refundedAmount = refundedAmount == null ? BigDecimal.ZERO : refundedAmount;
     }
 
     public OrderItem(UUID productId, String productName, int quantity, BigDecimal unitPrice) {
@@ -31,12 +30,14 @@ public record OrderItem(UUID productId, String productName, int quantity, BigDec
         return unitPrice.multiply(BigDecimal.valueOf(quantity));
     }
 
-    /** What can still be refunded for this line, with scale 2. */
-    public BigDecimal remaining() {
-        return subtotal().setScale(2, RoundingMode.HALF_UP).subtract(refundedAmount);
+    /** What can still be refunded for this line: the subtotal rounded HALF_UP to {@code scale} minus what was refunded. */
+    public BigDecimal remaining(int scale) {
+        return subtotal().setScale(scale, RoundingMode.HALF_UP)
+                .subtract(refundedAmount.setScale(scale, RoundingMode.HALF_UP));
     }
 
-    OrderItem withRefund(BigDecimal share) {
-        return new OrderItem(productId, productName, quantity, unitPrice, refundedAmount.add(share));
+    OrderItem withRefund(BigDecimal share, int scale) {
+        return new OrderItem(productId, productName, quantity, unitPrice,
+                refundedAmount.setScale(scale, RoundingMode.HALF_UP).add(share));
     }
 }

@@ -65,8 +65,10 @@ class OrderController {
     }
 
     @PostMapping("/{id}/refunds")
-    OrderResponse refund(@PathVariable UUID id, @Valid @RequestBody RefundRequest request) {
-        return OrderResponse.from(service.refund(id, request.amount()));
+    OrderResponse refund(@PathVariable UUID id,
+                         @RequestHeader(value = "Idempotency-Key", required = false) String key,
+                         @Valid @RequestBody RefundRequest request) {
+        return OrderResponse.from(service.refund(id, request.amount(), key));
     }
 
     @GetMapping("/{id}")

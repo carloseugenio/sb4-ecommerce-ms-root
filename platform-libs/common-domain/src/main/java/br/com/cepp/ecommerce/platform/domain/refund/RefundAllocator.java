@@ -22,14 +22,22 @@ public final class RefundAllocator {
      *                                  negative or has more than two decimals, or the amount exceeds the capacities
      */
     public static List<BigDecimal> allocate(BigDecimal amount, List<BigDecimal> capacities) {
-        BigInteger refund = cents(amount, "amount");
+        return allocate(amount, capacities, 2);
+    }
+
+    /** Same as {@link #allocate(BigDecimal, List)} for a currency with {@code scale} decimal places (0 for JPY, 3 for KWD). */
+    public static List<BigDecimal> allocate(BigDecimal amount, List<BigDecimal> capacities, int scale) {
+        if (scale < 0) {
+            throw new IllegalArgumentException("scale must not be negative");
+        }
+        BigInteger refund = cents(amount, "amount", scale);
         if (refund.signum() <= 0) {
             throw new IllegalArgumentException("amount must be positive");
         }
         List<BigInteger> caps = new ArrayList<>();
         BigInteger total = BigInteger.ZERO;
         for (BigDecimal capacity : capacities) {
-            BigInteger c = cents(capacity, "capacity");
+            BigInteger c = cents(capacity, "capacity", scale);
             if (c.signum() < 0) {
                 throw new IllegalArgumentException("capacity must not be negative");
             }
@@ -62,19 +70,19 @@ public final class RefundAllocator {
         }
         List<BigDecimal> result = new ArrayList<>();
         for (BigInteger share : shares) {
-            result.add(new BigDecimal(share).movePointLeft(2));
+            result.add(new BigDecimal(share, scale));
         }
         return result;
     }
 
-    private static BigInteger cents(BigDecimal value, String name) {
+    private static BigInteger cents(BigDecimal value, String name, int scale) {
         if (value == null) {
             throw new IllegalArgumentException(name + " is required");
         }
         try {
-            return value.setScale(2, RoundingMode.UNNECESSARY).unscaledValue();
+            return value.setScale(scale, RoundingMode.UNNECESSARY).unscaledValue();
         } catch (ArithmeticException e) {
-            throw new IllegalArgumentException(name + " must have at most two decimals");
+            throw new IllegalArgumentException(name + " has more than " + scale + " decimals");
         }
     }
 }

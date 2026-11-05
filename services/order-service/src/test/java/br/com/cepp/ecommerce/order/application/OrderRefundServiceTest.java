@@ -4,7 +4,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
@@ -130,5 +134,101 @@ class OrderRefundServiceTest {
         when(orders.findById(unknown)).thenReturn(Optional.empty());
         assertThrows(OrderNotFoundException.class, () -> service.refund(unknown, new BigDecimal("1.00")));
         verifyNoInteractions(outbox);
+    }
+
+    private String savedHash(String key, UUID orderId) {
+        ArgumentCaptor<String> hash = ArgumentCaptor.forClass(String.class);
+        verify(idempotency).save(eq(key), hash.capture(), eq(orderId));
+        return hash.getValue();
+    }
+
+    @Test
+    void keyedRefundSavesTheKeyAndRecordsTheEventOnce() {
+        Order o = order(true);
+        when(idempotency.find("k")).thenReturn(Optional.empty());
+
+        service.refund(o.getId(), new BigDecimal("10.00"), "k");
+
+        savedHash("k", o.getId());
+        verify(outbox, times(1)).record(eq(Topics.ORDER_REFUNDED), any());
+    }
+
+    @Test
+    void repeatedKeyReplaysWithoutRefundingAgainEvenForNumericallyEqualAmounts() {
+        Order o = order(true);
+        when(idempotency.find("k")).thenReturn(Optional.empty());
+        service.refund(o.getId(), new BigDecimal("10.00"), "k");
+        String hash = savedHash("k", o.getId());
+        when(idempotency.find("k")).thenReturn(Optional.of(new IdempotencyStore.Stored(hash, o.getId())));
+
+        Order again = service.refund(o.getId(), new BigDecimal("10"), "k");
+
+        assertEquals(o, again);
+        assertEquals(new BigDecimal("10.00"), o.getRefundedAmount());
+        verify(outbox, times(1)).record(eq(Topics.ORDER_REFUNDED), any());
+        verify(idempotency, times(1)).save(anyString(), anyString(), any(UUID.class));
+    }
+
+    @Test
+    void replayAfterTheOrderBecameRefundedStillSucceeds() {
+        Order o = order(true);
+        when(idempotency.find("k")).thenReturn(Optional.empty());
+        service.refund(o.getId(), new BigDecimal("30.00"), "k");
+        String hash = savedHash("k", o.getId());
+        assertEquals(OrderStatus.REFUNDED, o.getStatus());
+        when(idempotency.find("k")).thenReturn(Optional.of(new IdempotencyStore.Stored(hash, o.getId())));
+
+        assertEquals(o, service.refund(o.getId(), new BigDecimal("30.00"), "k"));
+        verify(outbox, times(1)).record(eq(Topics.ORDER_REFUNDED), any());
+    }
+
+    @Test
+    void keyReusedForADifferentRequestIsAConflict() {
+        Order o = order(true);
+        when(idempotency.find("k")).thenReturn(Optional.empty());
+        service.refund(o.getId(), new BigDecimal("10.00"), "k");
+        String hash = savedHash("k", o.getId());
+        when(idempotency.find("k")).thenReturn(Optional.of(new IdempotencyStore.Stored(hash, o.getId())));
+
+        assertThrows(IdempotencyConflictException.class, () -> service.refund(o.getId(), new BigDecimal("10.01"), "k"));
+        Order other = order(true);
+        assertThrows(IdempotencyConflictException.class, () -> service.refund(other.getId(), new BigDecimal("10.00"), "k"));
+        when(idempotency.find("placed")).thenReturn(Optional.of(new IdempotencyStore.Stored("place-hash", o.getId())));
+        assertThrows(IdempotencyConflictException.class, () -> service.refund(o.getId(), new BigDecimal("10.00"), "placed"));
+        assertEquals(new BigDecimal("10.00"), o.getRefundedAmount());
+    }
+
+    @Test
+    void failedKeyedRefundDoesNotConsumeTheKey() {
+        Order pending = order(false);
+        when(idempotency.find("k")).thenReturn(Optional.empty());
+        assertThrows(IllegalStateException.class, () -> service.refund(pending.getId(), new BigDecimal("1.00"), "k"));
+        Order confirmed = order(true);
+        assertThrows(IllegalArgumentException.class, () -> service.refund(confirmed.getId(), new BigDecimal("31.00"), "k"));
+        verify(idempotency, never()).save(anyString(), anyString(), any(UUID.class));
+        verifyNoInteractions(outbox);
+    }
+
+    private record MirrorItem(UUID productId, String productName, int quantity, BigDecimal unitPrice) {
+    }
+
+    private record MirrorCommand(UUID customerId, String currency, List<MirrorItem> items) {
+    }
+
+    @Test
+    void placeRequestHashIsTheSameAsBeforeRefundsExisted() throws Exception {
+        var json = JsonMapper.builder().build();
+        UUID customer = UUID.randomUUID();
+        var item = new OrderItem(a, "Keyboard", 2, new BigDecimal("10.50"));
+        when(idempotency.find("p")).thenReturn(Optional.empty());
+        when(orders.save(any(Order.class))).thenAnswer(i -> i.getArgument(0));
+
+        Order placed = service.place("p", new PlaceOrderCommand(customer, "BRL", List.of(item)));
+
+        String expected = java.util.HexFormat.of().formatHex(java.security.MessageDigest.getInstance("SHA-256").digest(
+                json.writeValueAsString(new MirrorCommand(customer, "BRL",
+                        List.of(new MirrorItem(a, "Keyboard", 2, new BigDecimal("10.50")))))
+                        .getBytes(java.nio.charset.StandardCharsets.UTF_8)));
+        assertEquals(expected, savedHash("p", placed.getId()));
     }
 }

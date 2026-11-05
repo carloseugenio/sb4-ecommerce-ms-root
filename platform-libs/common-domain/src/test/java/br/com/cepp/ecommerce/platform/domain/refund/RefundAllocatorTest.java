@@ -60,4 +60,12 @@ class RefundAllocatorTest {
         assertThrows(IllegalArgumentException.class, () -> RefundAllocator.allocate(new BigDecimal("1.00"), d("1.005", "2.00")));
         assertThrows(IllegalArgumentException.class, () -> RefundAllocator.allocate(new BigDecimal("1.00"), d("-1.00", "2.00")));
     }
+
+    @Test
+    void sharesFollowTheRequestedNumberOfDecimals() {
+        assertEquals(d("34", "33", "33"), RefundAllocator.allocate(new BigDecimal("100"), d("333", "333", "333"), 0));
+        assertEquals(d("0.333", "0.667"), RefundAllocator.allocate(new BigDecimal("1"), d("1.001", "2.002"), 3));
+        assertThrows(IllegalArgumentException.class, () -> RefundAllocator.allocate(new BigDecimal("1.5"), d("5"), 0));
+        assertThrows(IllegalArgumentException.class, () -> RefundAllocator.allocate(new BigDecimal("1"), d("5.5"), 0));
+    }
 }

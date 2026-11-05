@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.HexFormat;
+import java.util.List;
 import java.util.UUID;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,16 +29,46 @@ public class OrderService {
 
     @Transactional
     public Order refund(UUID id, BigDecimal amount) {
+        return refund(id, amount, null);
+    }
+
+    /**
+     * Refunds part of an order. With an idempotency key, a repeated request (same order, numerically equal amount)
+     * returns the order as it is now without refunding again, even when the order has meanwhile become REFUNDED.
+     */
+    @Transactional
+    public Order refund(UUID id, BigDecimal amount, String idempotencyKey) {
+        String hash = amount == null ? null : sha256("refund|" + id + "|" + amount.stripTrailingZeros().toPlainString());
+        if (idempotencyKey != null && hash != null) {
+            var stored = idempotency.find(idempotencyKey);
+            if (stored.isPresent()) {
+                if (!stored.get().requestHash().equals(hash) || !id.equals(stored.get().orderId())) {
+                    throw new IdempotencyConflictException(idempotencyKey);
+                }
+                return orders.findById(id).orElseThrow(() -> new OrderNotFoundException(id));
+            }
+        }
         Order order = orders.findById(id).orElseThrow(() -> new OrderNotFoundException(id));
         var shares = order.refund(amount);
-        events.refunded(order, amount, shares);
+        if (idempotencyKey != null) {
+            idempotency.save(idempotencyKey, hash, order.getId());
+        }
+        events.refunded(order, shares);
         return order;
+    }
+
+    private record PlaceItemHash(UUID productId, String productName, int quantity, BigDecimal unitPrice) {
+    }
+
+    private record PlaceHash(UUID customerId, String currency, List<PlaceItemHash> items) {
     }
 
     /** Creates the order and the OrderPlaced outbox event in one transaction; replays the result for a repeated key. */
     @Transactional
     public Order place(String idempotencyKey, PlaceOrderCommand command) {
-        String hash = sha256(json.writeValueAsString(command));
+        String hash = sha256(json.writeValueAsString(new PlaceHash(command.customerId(), command.currency(),
+                command.items().stream().map(i -> new PlaceItemHash(i.productId(), i.productName(), i.quantity(),
+                        i.unitPrice())).toList())));
         var stored = idempotency.find(idempotencyKey);
         if (stored.isPresent()) {
             if (!stored.get().requestHash().equals(hash)) {

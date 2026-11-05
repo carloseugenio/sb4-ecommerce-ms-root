@@ -45,21 +45,22 @@ class OrderEvents {
                 correlationId, causationId, new OrderCancelled(o.getId(), o.getCancelReason())));
     }
 
-    void refunded(Order o, BigDecimal amount, List<BigDecimal> shares) {
+    void refunded(Order o, List<BigDecimal> shares) {
         var lines = new ArrayList<RefundLine>();
         for (int i = 0; i < shares.size(); i++) {
             if (shares.get(i).signum() > 0) {
                 lines.add(new RefundLine(o.getItems().get(i).productId(), shares.get(i)));
             }
         }
+        var amount = shares.stream().reduce(BigDecimal.ZERO, BigDecimal::add);
         outbox.record(Topics.ORDER_REFUNDED, EventEnvelope.of("OrderRefunded", o.getId().toString(),
-                o.getId().toString(), null, new OrderRefunded(o.getId(), amount.setScale(2, RoundingMode.UNNECESSARY),
+                o.getId().toString(), null, new OrderRefunded(o.getId(), amount,
                         o.getRefundedAmount(), o.getCurrency(), o.getStatus() == OrderStatus.REFUNDED, lines)));
     }
 
     void paymentVoidRequested(Order o, UUID paymentId, String correlationId, String causationId) {
         outbox.record(Topics.PAYMENT_VOID_REQUESTED, EventEnvelope.of("PaymentVoidRequested", o.getId().toString(),
                 correlationId, causationId, new PaymentVoidRequested(o.getId(), paymentId,
-                        o.getTotalAmount().setScale(2, RoundingMode.HALF_UP), o.getCurrency())));
+                        o.getTotalAmount().setScale(o.currencyScale(), RoundingMode.HALF_UP), o.getCurrency())));
     }
 }

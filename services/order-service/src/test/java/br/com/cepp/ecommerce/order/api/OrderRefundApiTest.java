@@ -35,7 +35,7 @@ class OrderRefundApiTest {
     void refundReturnsTheOrderWithTheRefundedAmount() throws Exception {
         Order o = order();
         o.refund(new BigDecimal("4.00"));
-        when(service.refund(o.getId(), new BigDecimal("4.00"))).thenReturn(o);
+        when(service.refund(o.getId(), new BigDecimal("4.00"), null)).thenReturn(o);
 
         mvc.perform(post("/api/orders/{id}/refunds", o.getId()).contentType(MediaType.APPLICATION_JSON)
                         .content("{\"amount\": 4.00}"))
@@ -49,7 +49,7 @@ class OrderRefundApiTest {
     void fullRefundShowsRefundedStatus() throws Exception {
         Order o = order();
         o.refund(new BigDecimal("10"));
-        when(service.refund(o.getId(), new BigDecimal("10"))).thenReturn(o);
+        when(service.refund(o.getId(), new BigDecimal("10"), null)).thenReturn(o);
 
         mvc.perform(post("/api/orders/{id}/refunds", o.getId()).contentType(MediaType.APPLICATION_JSON)
                         .content("{\"amount\": 10}"))
@@ -60,16 +60,40 @@ class OrderRefundApiTest {
     @Test
     void errorsAreMappedToStatusCodes() throws Exception {
         UUID missing = UUID.randomUUID();
-        when(service.refund(missing, new BigDecimal("1.00"))).thenThrow(new OrderNotFoundException(missing));
+        when(service.refund(missing, new BigDecimal("1.00"), null)).thenThrow(new OrderNotFoundException(missing));
         UUID bad = UUID.randomUUID();
-        when(service.refund(bad, new BigDecimal("1.00"))).thenThrow(new IllegalArgumentException("bad amount"));
+        when(service.refund(bad, new BigDecimal("1.00"), null)).thenThrow(new IllegalArgumentException("bad amount"));
         UUID wrong = UUID.randomUUID();
-        when(service.refund(wrong, new BigDecimal("1.00"))).thenThrow(new IllegalStateException("not confirmed"));
+        when(service.refund(wrong, new BigDecimal("1.00"), null)).thenThrow(new IllegalStateException("not confirmed"));
 
         for (var c : List.of(new Object[] {missing, 404}, new Object[] {bad, 400}, new Object[] {wrong, 409})) {
             mvc.perform(post("/api/orders/{id}/refunds", c[0]).contentType(MediaType.APPLICATION_JSON)
                             .content("{\"amount\": 1.00}"))
                     .andExpect(status().is((Integer) c[1]));
         }
+    }
+
+    @Test
+    void idempotencyKeyHeaderIsPassedAndConflictsAre422() throws Exception {
+        Order o = order();
+        o.refund(new BigDecimal("4.00"));
+        when(service.refund(o.getId(), new BigDecimal("4.00"), "key-1")).thenReturn(o);
+        mvc.perform(post("/api/orders/{id}/refunds", o.getId()).header("Idempotency-Key", "key-1")
+                        .contentType(MediaType.APPLICATION_JSON).content("{\"amount\": 4.00}"))
+                .andExpect(status().isOk());
+
+        UUID other = UUID.randomUUID();
+        when(service.refund(other, new BigDecimal("4.00"), "key-1"))
+                .thenThrow(new br.com.cepp.ecommerce.order.application.IdempotencyConflictException("key-1"));
+        mvc.perform(post("/api/orders/{id}/refunds", other).header("Idempotency-Key", "key-1")
+                        .contentType(MediaType.APPLICATION_JSON).content("{\"amount\": 4.00}"))
+                .andExpect(status().isUnprocessableEntity());
+    }
+
+    @Test
+    void missingAmountIsABadRequest() throws Exception {
+        mvc.perform(post("/api/orders/{id}/refunds", UUID.randomUUID()).contentType(MediaType.APPLICATION_JSON)
+                        .content("{}"))
+                .andExpect(status().isBadRequest());
     }
 }

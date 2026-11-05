@@ -94,4 +94,20 @@ class OrderVoidSagaTest {
         assertEquals(OrderStatus.REFUNDED, o.getStatus());
         verify(outbox, never()).record(eq(Topics.PAYMENT_VOID_REQUESTED), any());
     }
+
+    @Test
+    void voidAmountUsesTheCurrencyScaleAndRoundsHalfUp() {
+        Order o = Order.place(UUID.randomUUID(), "JPY",
+                List.of(new OrderItem(UUID.randomUUID(), "A", 2, new BigDecimal("350.25"))));
+        when(orders.findById(o.getId())).thenReturn(Optional.of(o));
+        when(processed.firstTime(any(), any())).thenReturn(true);
+        o.cancel("x");
+
+        handler.onPaymentAuthorized(authorized(o, UUID.randomUUID()));
+
+        @SuppressWarnings("unchecked")
+        ArgumentCaptor<EventEnvelope<?>> captor = ArgumentCaptor.forClass(EventEnvelope.class);
+        verify(outbox).record(eq(Topics.PAYMENT_VOID_REQUESTED), captor.capture());
+        assertEquals(new BigDecimal("701"), ((PaymentVoidRequested) captor.getValue().payload()).amount());
+    }
 }

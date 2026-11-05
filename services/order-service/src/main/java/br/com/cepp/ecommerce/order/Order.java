@@ -34,7 +34,7 @@ public class Order {
 
     private String cancelReason;
 
-    private BigDecimal refundedAmount = BigDecimal.ZERO.setScale(2);
+    private BigDecimal refundedAmount = BigDecimal.ZERO;
     @ElementCollection
     @CollectionTable(name = "order_item", joinColumns = @JoinColumn(name = "order_id"))
     private List<OrderItem> items = new ArrayList<>();
@@ -91,9 +91,10 @@ public class Order {
 
     /**
      * Refunds part of a confirmed order. The amount is split over the lines in proportion to what each line can
-     * still be refunded. Moves to REFUNDED once the whole total has been refunded.
+     * still be refunded, in the decimal places of the order currency. Moves to REFUNDED once no line has anything
+     * left to refund.
      *
-     * @return the share given to each item, in item order, all with scale 2
+     * @return the share given to each item, in item order, all with the scale of the currency
      * @throws IllegalStateException    if the order is not CONFIRMED
      * @throws IllegalArgumentException if the amount is invalid or larger than what is left to refund
      */
@@ -101,17 +102,28 @@ public class Order {
         if (status != OrderStatus.CONFIRMED) {
             throw new IllegalStateException("Only a confirmed order can be refunded, but it is " + status);
         }
+        int scale = currencyScale();
         List<BigDecimal> shares = RefundAllocator.allocate(amount,
-                items.stream().map(OrderItem::remaining).toList());
+                items.stream().map(i -> i.remaining(scale)).toList(), scale);
         for (int i = 0; i < items.size(); i++) {
-            items.set(i, items.get(i).withRefund(shares.get(i)));
+            items.set(i, items.get(i).withRefund(shares.get(i), scale));
         }
-        refundedAmount = refundedAmount.add(amount.setScale(2, RoundingMode.UNNECESSARY));
-        if (refundedAmount.compareTo(totalAmount) == 0) {
+        refundedAmount = getRefundedAmount().add(shares.stream().reduce(BigDecimal.ZERO, BigDecimal::add));
+        if (items.stream().allMatch(i -> i.remaining(scale).signum() == 0)) {
             status = OrderStatus.REFUNDED;
         }
         updatedAt = Instant.now();
         return shares;
+    }
+
+    /** Decimal places of the order currency (2 for BRL, 0 for JPY, 3 for KWD); 2 if the code is not an ISO currency. */
+    public int currencyScale() {
+        try {
+            int digits = java.util.Currency.getInstance(currency).getDefaultFractionDigits();
+            return digits < 0 ? 2 : digits;
+        } catch (IllegalArgumentException e) {
+            return 2;
+        }
     }
 
     public UUID getId() {
@@ -138,9 +150,9 @@ public class Order {
         return cancelReason;
     }
 
-    /** Total refunded so far, always with scale 2. */
+    /** Total refunded so far, always with the scale of the order currency. */
     public BigDecimal getRefundedAmount() {
-        return refundedAmount;
+        return refundedAmount.setScale(currencyScale(), RoundingMode.HALF_UP);
     }
 
     public List<OrderItem> getItems() {
